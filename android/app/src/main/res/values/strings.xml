@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Amulink</string>
+    <string name="title_me">Me</string>
+    <string name="title_connected">Connected</string>
+</resources>

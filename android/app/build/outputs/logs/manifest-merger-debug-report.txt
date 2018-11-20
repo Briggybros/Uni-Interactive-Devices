@@ -1,0 +1,170 @@
+-- Merging decision tree log ---
+manifest
+ADDED from /home/gregory/Documents/Uni/Uni-Interactive-Devices/android/app/src/main/AndroidManifest.xml:2:1-23:12
+INJECTED from /home/gregory/Documents/Uni/Uni-Interactive-Devices/android/app/src/main/AndroidManifest.xml:2:1-23:12
+INJECTED from /home/gregory/Documents/Uni/Uni-Interactive-Devices/android/app/src/main/AndroidManifest.xml:2:1-23:12
+INJECTED from /home/gregory/Documents/Uni/Uni-Interactive-Devices/android/app/src/main/AndroidManifest.xml:2:1-23:12
+MERGED from [com.android.support:design:28.0.0] /home/gregory/.gradle/caches/transforms-1/files-1.1/design-28.0.0.aar/4d9be3f6c155d0486400770633372efe/AndroidManifest.xml:17:1-24:12
+MERGED from [com.android.support:appcompat-v7:28.0.0] /home/gregory/.gradle/caches/transforms-1/files-1.1/appcompat-v7-28.0.0.aar/29a401bab5372db87df9e3c9194da3b7/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support.constraint:constraint-layout:1.1.3] /home/gregory/.gradle/caches/transforms-1/files-1.1/constraint-layout-1.1.3.aar/a6592baf3b4384512a9efafb1780d3cd/AndroidManifest.xml:2:1-11:12
+MERGED from [com.android.support:animated-vector-drawable:28.0.0] /home/gregory/.gradle/caches/transforms-1/files-1.1/animated-vector-drawable-28.0.0.aar/80d4980cf9d44aeac787d965bc0b76f6/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-vector-drawable:28.0.0] /home/gregory/.gradle/caches/transforms-1/files-1.1/support-vector-drawable-28.0.0.aar/47e28da2dd032ecd1895f26efc8faf6e/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-fragment:28.0.0] /home/gregory/.gradle/caches/transforms-1/files-1.1/support-fragment-28.0.0.aar/e36b196b013350b31fb4e14689307104/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:recyclerview-v7:28.0.0] /home/gregory/.gradle/caches/transforms-1/files-1.1/recyclerview-v7-28.0.0.aar/c8bded2428a51c78fc97e07855726bd7/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-core-ui:28.0.0] /home/gregory/.gradle/caches/transforms-1/files-1.1/support-core-ui-28.0.0.aar/e6f70e51ea59c4f47a0226c0df63dc65/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-core-utils:28.0.0] /home/gregory/.gradle/caches/transforms-1/files-1.1/support-core-utils-28.0.0.aar/8e9102f8c3b510e689b02ee44f54b607/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:transition:28.0.0] /home/gregory/.gradle/caches/transforms-1/files-1.1/transition-28.0.0.aar/74e4f52b8c5ffc143c1fc09da1358558/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:loader:28.0.0] /home/gregory/.gradle/caches/transforms-1/files-1.1/loader-28.0.0.aar/e2cfbecba05b697f62afc2b7d0261b19/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:viewpager:28.0.0] /home/gregory/.gradle/caches/transforms-1/files-1.1/viewpager-28.0.0.aar/da47f977dc4f17f37c92cc29fd0bac05/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:coordinatorlayout:28.0.0] /home/gregory/.gradle/caches/transforms-1/files-1.1/coordinatorlayout-28.0.0.aar/7ae1c186fe894b86934896fc1710dd7a/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:drawerlayout:28.0.0] /home/gregory/.gradle/caches/transforms-1/files-1.1/drawerlayout-28.0.0.aar/75137af7b2fd407442761af1dc57aff8/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:slidingpanelayout:28.0.0] /home/gregory/.gradle/caches/transforms-1/files-1.1/slidingpanelayout-28.0.0.aar/9d3b8913c21407cba083472fe5e6fd66/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:customview:28.0.0] /home/gregory/.gradle/caches/transforms-1/files-1.1/customview-28.0.0.aar/fb5ed0dcc36201b186d8aa8276e195b2/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:swiperefreshlayout:28.0.0] /home/gregory/.gradle/caches/transforms-1/files-1.1/swiperefreshlayout-28.0.0.aar/463bb4fcd6065b9bf0f5cde752a219fd/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:asynclayoutinflater:28.0.0] /home/gregory/.gradle/caches/transforms-1/files-1.1/asynclayoutinflater-28.0.0.aar/79591c65efa75207e32471e87181c3f3/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-compat:28.0.0] /home/gregory/.gradle/caches/transforms-1/files-1.1/support-compat-28.0.0.aar/c4328ddfd1924be32004e543cc37d75b/AndroidManifest.xml:17:1-24:12
+MERGED from [com.android.support:versionedparcelable:28.0.0] /home/gregory/.gradle/caches/transforms-1/files-1.1/versionedparcelable-28.0.0.aar/2357a247201b68f3057c85fefc1b9304/AndroidManifest.xml:17:1-25:12
+MERGED from [com.android.support:cursoradapter:28.0.0] /home/gregory/.gradle/caches/transforms-1/files-1.1/cursoradapter-28.0.0.aar/081776f63c0ba0e64bce1b5414a396ec/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:cardview-v7:28.0.0] /home/gregory/.gradle/caches/transforms-1/files-1.1/cardview-v7-28.0.0.aar/68335ab3dcbfb72cb011ca3e07449c6f/AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:runtime:1.1.1] /home/gregory/.gradle/caches/transforms-1/files-1.1/runtime-1.1.1.aar/529a39f58d93ca3ed2f88e0507c85b7e/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:documentfile:28.0.0] /home/gregory/.gradle/caches/transforms-1/files-1.1/documentfile-28.0.0.aar/0aef58b76277dcb86fa70d6dd76b169d/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:localbroadcastmanager:28.0.0] /home/gregory/.gradle/caches/transforms-1/files-1.1/localbroadcastmanager-28.0.0.aar/94446a3369a59e3bd2aeff6eb88c96e3/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:print:28.0.0] /home/gregory/.gradle/caches/transforms-1/files-1.1/print-28.0.0.aar/f5df57b6cbe57c5ea4a0becf011d1b20/AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:viewmodel:1.1.1] /home/gregory/.gradle/caches/transforms-1/files-1.1/viewmodel-1.1.1.aar/8c0a1d7b0e40395409add660f20448dd/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:interpolator:28.0.0] /home/gregory/.gradle/caches/transforms-1/files-1.1/interpolator-28.0.0.aar/9376bbe7b09bf2dad8cc7add8fba39d0/AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:livedata:1.1.1] /home/gregory/.gradle/caches/transforms-1/files-1.1/livedata-1.1.1.aar/5c14f560e1d5b0cec6367eb49d2112f1/AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:livedata-core:1.1.1] /home/gregory/.gradle/caches/transforms-1/files-1.1/livedata-core-1.1.1.aar/94f8da1cd5a4c05a9f92d6e4f89e5a42/AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.core:runtime:1.1.1] /home/gregory/.gradle/caches/transforms-1/files-1.1/runtime-1.1.1.aar/adaff753101ff03ba01663544bdb4c63/AndroidManifest.xml:17:1-22:12
+INJECTED from /home/gregory/Documents/Uni/Uni-Interactive-Devices/android/app/src/main/AndroidManifest.xml:2:1-23:12
+INJECTED from /home/gregory/Documents/Uni/Uni-Interactive-Devices/android/app/src/main/AndroidManifest.xml:2:1-23:12
+INJECTED from /home/gregory/Documents/Uni/Uni-Interactive-Devices/android/app/src/main/AndroidManifest.xml:2:1-23:12
+	package
+		ADDED from /home/gregory/Documents/Uni/Uni-Interactive-Devices/android/app/src/main/AndroidManifest.xml:3:5-33
+		INJECTED from /home/gregory/Documents/Uni/Uni-Interactive-Devices/android/app/src/main/AndroidManifest.xml
+		INJECTED from /home/gregory/Documents/Uni/Uni-Interactive-Devices/android/app/src/main/AndroidManifest.xml
+	android:versionName
+		INJECTED from /home/gregory/Documents/Uni/Uni-Interactive-Devices/android/app/src/main/AndroidManifest.xml
+		ADDED from /home/gregory/Documents/Uni/Uni-Interactive-Devices/android/app/src/main/AndroidManifest.xml:2:1-23:12
+		INJECTED from /home/gregory/Documents/Uni/Uni-Interactive-Devices/android/app/src/main/AndroidManifest.xml
+	android:versionCode
+		INJECTED from /home/gregory/Documents/Uni/Uni-Interactive-Devices/android/app/src/main/AndroidManifest.xml
+		ADDED from /home/gregory/Documents/Uni/Uni-Interactive-Devices/android/app/src/main/AndroidManifest.xml:2:1-23:12
+		INJECTED from /home/gregory/Documents/Uni/Uni-Interactive-Devices/android/app/src/main/AndroidManifest.xml
+	xmlns:android
+		ADDED from /home/gregory/Documents/Uni/Uni-Interactive-Devices/android/app/src/main/AndroidManifest.xml:2:11-69
+application
+ADDED from /home/gregory/Documents/Uni/Uni-Interactive-Devices/android/app/src/main/AndroidManifest.xml:5:5-21:19
+MERGED from [com.android.support:design:28.0.0] /home/gregory/.gradle/caches/transforms-1/files-1.1/design-28.0.0.aar/4d9be3f6c155d0486400770633372efe/AndroidManifest.xml:22:5-20
+MERGED from [com.android.support:design:28.0.0] /home/gregory/.gradle/caches/transforms-1/files-1.1/design-28.0.0.aar/4d9be3f6c155d0486400770633372efe/AndroidManifest.xml:22:5-20
+MERGED from [com.android.support.constraint:constraint-layout:1.1.3] /home/gregory/.gradle/caches/transforms-1/files-1.1/constraint-layout-1.1.3.aar/a6592baf3b4384512a9efafb1780d3cd/AndroidManifest.xml:9:5-20
+MERGED from [com.android.support.constraint:constraint-layout:1.1.3] /home/gregory/.gradle/caches/transforms-1/files-1.1/constraint-layout-1.1.3.aar/a6592baf3b4384512a9efafb1780d3cd/AndroidManifest.xml:9:5-20
+MERGED from [com.android.support:support-compat:28.0.0] /home/gregory/.gradle/caches/transforms-1/files-1.1/support-compat-28.0.0.aar/c4328ddfd1924be32004e543cc37d75b/AndroidManifest.xml:22:5-94
+MERGED from [com.android.support:support-compat:28.0.0] /home/gregory/.gradle/caches/transforms-1/files-1.1/support-compat-28.0.0.aar/c4328ddfd1924be32004e543cc37d75b/AndroidManifest.xml:22:5-94
+MERGED from [com.android.support:versionedparcelable:28.0.0] /home/gregory/.gradle/caches/transforms-1/files-1.1/versionedparcelable-28.0.0.aar/2357a247201b68f3057c85fefc1b9304/AndroidManifest.xml:22:5-23:19
+MERGED from [com.android.support:versionedparcelable:28.0.0] /home/gregory/.gradle/caches/transforms-1/files-1.1/versionedparcelable-28.0.0.aar/2357a247201b68f3057c85fefc1b9304/AndroidManifest.xml:22:5-23:19
+	android:appComponentFactory
+		ADDED from [com.android.support:support-compat:28.0.0] /home/gregory/.gradle/caches/transforms-1/files-1.1/support-compat-28.0.0.aar/c4328ddfd1924be32004e543cc37d75b/AndroidManifest.xml:22:18-91
+	android:supportsRtl
+		ADDED from /home/gregory/Documents/Uni/Uni-Interactive-Devices/android/app/src/main/AndroidManifest.xml:10:9-35
+	android:label
+		ADDED from /home/gregory/Documents/Uni/Uni-Interactive-Devices/android/app/src/main/AndroidManifest.xml:8:9-41
+	android:roundIcon
+		ADDED from /home/gregory/Documents/Uni/Uni-Interactive-Devices/android/app/src/main/AndroidManifest.xml:9:9-54
+	android:icon
+		ADDED from /home/gregory/Documents/Uni/Uni-Interactive-Devices/android/app/src/main/AndroidManifest.xml:7:9-43
+	android:allowBackup
+		ADDED from /home/gregory/Documents/Uni/Uni-Interactive-Devices/android/app/src/main/AndroidManifest.xml:6:9-35
+	android:theme
+		ADDED from /home/gregory/Documents/Uni/Uni-Interactive-Devices/android/app/src/main/AndroidManifest.xml:11:9-40
+activity#teamrocket.amulink.Navigation
+ADDED from /home/gregory/Documents/Uni/Uni-Interactive-Devices/android/app/src/main/AndroidManifest.xml:12:9-20:20
+	android:label
+		ADDED from /home/gregory/Documents/Uni/Uni-Interactive-Devices/android/app/src/main/AndroidManifest.xml:14:13-45
+	android:name
+		ADDED from /home/gregory/Documents/Uni/Uni-Interactive-Devices/android/app/src/main/AndroidManifest.xml:13:13-39
+intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
+ADDED from /home/gregory/Documents/Uni/Uni-Interactive-Devices/android/app/src/main/AndroidManifest.xml:15:13-19:29
+action#android.intent.action.MAIN
+ADDED from /home/gregory/Documents/Uni/Uni-Interactive-Devices/android/app/src/main/AndroidManifest.xml:16:17-69
+	android:name
+		ADDED from /home/gregory/Documents/Uni/Uni-Interactive-Devices/android/app/src/main/AndroidManifest.xml:16:25-66
+category#android.intent.category.LAUNCHER
+ADDED from /home/gregory/Documents/Uni/Uni-Interactive-Devices/android/app/src/main/AndroidManifest.xml:18:17-77
+	android:name
+		ADDED from /home/gregory/Documents/Uni/Uni-Interactive-Devices/android/app/src/main/AndroidManifest.xml:18:27-74
+uses-sdk
+INJECTED from /home/gregory/Documents/Uni/Uni-Interactive-Devices/android/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /home/gregory/Documents/Uni/Uni-Interactive-Devices/android/app/src/main/AndroidManifest.xml
+INJECTED from /home/gregory/Documents/Uni/Uni-Interactive-Devices/android/app/src/main/AndroidManifest.xml
+MERGED from [com.android.support:design:28.0.0] /home/gregory/.gradle/caches/transforms-1/files-1.1/design-28.0.0.aar/4d9be3f6c155d0486400770633372efe/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:design:28.0.0] /home/gregory/.gradle/caches/transforms-1/files-1.1/design-28.0.0.aar/4d9be3f6c155d0486400770633372efe/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:appcompat-v7:28.0.0] /home/gregory/.gradle/caches/transforms-1/files-1.1/appcompat-v7-28.0.0.aar/29a401bab5372db87df9e3c9194da3b7/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:appcompat-v7:28.0.0] /home/gregory/.gradle/caches/transforms-1/files-1.1/appcompat-v7-28.0.0.aar/29a401bab5372db87df9e3c9194da3b7/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support.constraint:constraint-layout:1.1.3] /home/gregory/.gradle/caches/transforms-1/files-1.1/constraint-layout-1.1.3.aar/a6592baf3b4384512a9efafb1780d3cd/AndroidManifest.xml:5:5-7:41
+MERGED from [com.android.support.constraint:constraint-layout:1.1.3] /home/gregory/.gradle/caches/transforms-1/files-1.1/constraint-layout-1.1.3.aar/a6592baf3b4384512a9efafb1780d3cd/AndroidManifest.xml:5:5-7:41
+MERGED from [com.android.support:animated-vector-drawable:28.0.0] /home/gregory/.gradle/caches/transforms-1/files-1.1/animated-vector-drawable-28.0.0.aar/80d4980cf9d44aeac787d965bc0b76f6/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:animated-vector-drawable:28.0.0] /home/gregory/.gradle/caches/transforms-1/files-1.1/animated-vector-drawable-28.0.0.aar/80d4980cf9d44aeac787d965bc0b76f6/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-vector-drawable:28.0.0] /home/gregory/.gradle/caches/transforms-1/files-1.1/support-vector-drawable-28.0.0.aar/47e28da2dd032ecd1895f26efc8faf6e/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-vector-drawable:28.0.0] /home/gregory/.gradle/caches/transforms-1/files-1.1/support-vector-drawable-28.0.0.aar/47e28da2dd032ecd1895f26efc8faf6e/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-fragment:28.0.0] /home/gregory/.gradle/caches/transforms-1/files-1.1/support-fragment-28.0.0.aar/e36b196b013350b31fb4e14689307104/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-fragment:28.0.0] /home/gregory/.gradle/caches/transforms-1/files-1.1/support-fragment-28.0.0.aar/e36b196b013350b31fb4e14689307104/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:recyclerview-v7:28.0.0] /home/gregory/.gradle/caches/transforms-1/files-1.1/recyclerview-v7-28.0.0.aar/c8bded2428a51c78fc97e07855726bd7/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:recyclerview-v7:28.0.0] /home/gregory/.gradle/caches/transforms-1/files-1.1/recyclerview-v7-28.0.0.aar/c8bded2428a51c78fc97e07855726bd7/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-ui:28.0.0] /home/gregory/.gradle/caches/transforms-1/files-1.1/support-core-ui-28.0.0.aar/e6f70e51ea59c4f47a0226c0df63dc65/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-ui:28.0.0] /home/gregory/.gradle/caches/transforms-1/files-1.1/support-core-ui-28.0.0.aar/e6f70e51ea59c4f47a0226c0df63dc65/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-utils:28.0.0] /home/gregory/.gradle/caches/transforms-1/files-1.1/support-core-utils-28.0.0.aar/8e9102f8c3b510e689b02ee44f54b607/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-utils:28.0.0] /home/gregory/.gradle/caches/transforms-1/files-1.1/support-core-utils-28.0.0.aar/8e9102f8c3b510e689b02ee44f54b607/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:transition:28.0.0] /home/gregory/.gradle/caches/transforms-1/files-1.1/transition-28.0.0.aar/74e4f52b8c5ffc143c1fc09da1358558/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:transition:28.0.0] /home/gregory/.gradle/caches/transforms-1/files-1.1/transition-28.0.0.aar/74e4f52b8c5ffc143c1fc09da1358558/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:loader:28.0.0] /home/gregory/.gradle/caches/transforms-1/files-1.1/loader-28.0.0.aar/e2cfbecba05b697f62afc2b7d0261b19/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:loader:28.0.0] /home/gregory/.gradle/caches/transforms-1/files-1.1/loader-28.0.0.aar/e2cfbecba05b697f62afc2b7d0261b19/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:viewpager:28.0.0] /home/gregory/.gradle/caches/transforms-1/files-1.1/viewpager-28.0.0.aar/da47f977dc4f17f37c92cc29fd0bac05/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:viewpager:28.0.0] /home/gregory/.gradle/caches/transforms-1/files-1.1/viewpager-28.0.0.aar/da47f977dc4f17f37c92cc29fd0bac05/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:coordinatorlayout:28.0.0] /home/gregory/.gradle/caches/transforms-1/files-1.1/coordinatorlayout-28.0.0.aar/7ae1c186fe894b86934896fc1710dd7a/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:coordinatorlayout:28.0.0] /home/gregory/.gradle/caches/transforms-1/files-1.1/coordinatorlayout-28.0.0.aar/7ae1c186fe894b86934896fc1710dd7a/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:drawerlayout:28.0.0] /home/gregory/.gradle/caches/transforms-1/files-1.1/drawerlayout-28.0.0.aar/75137af7b2fd407442761af1dc57aff8/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:drawerlayout:28.0.0] /home/gregory/.gradle/caches/transforms-1/files-1.1/drawerlayout-28.0.0.aar/75137af7b2fd407442761af1dc57aff8/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:slidingpanelayout:28.0.0] /home/gregory/.gradle/caches/transforms-1/files-1.1/slidingpanelayout-28.0.0.aar/9d3b8913c21407cba083472fe5e6fd66/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:slidingpanelayout:28.0.0] /home/gregory/.gradle/caches/transforms-1/files-1.1/slidingpanelayout-28.0.0.aar/9d3b8913c21407cba083472fe5e6fd66/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:customview:28.0.0] /home/gregory/.gradle/caches/transforms-1/files-1.1/customview-28.0.0.aar/fb5ed0dcc36201b186d8aa8276e195b2/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:customview:28.0.0] /home/gregory/.gradle/caches/transforms-1/files-1.1/customview-28.0.0.aar/fb5ed0dcc36201b186d8aa8276e195b2/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:swiperefreshlayout:28.0.0] /home/gregory/.gradle/caches/transforms-1/files-1.1/swiperefreshlayout-28.0.0.aar/463bb4fcd6065b9bf0f5cde752a219fd/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:swiperefreshlayout:28.0.0] /home/gregory/.gradle/caches/transforms-1/files-1.1/swiperefreshlayout-28.0.0.aar/463bb4fcd6065b9bf0f5cde752a219fd/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:asynclayoutinflater:28.0.0] /home/gregory/.gradle/caches/transforms-1/files-1.1/asynclayoutinflater-28.0.0.aar/79591c65efa75207e32471e87181c3f3/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:asynclayoutinflater:28.0.0] /home/gregory/.gradle/caches/transforms-1/files-1.1/asynclayoutinflater-28.0.0.aar/79591c65efa75207e32471e87181c3f3/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-compat:28.0.0] /home/gregory/.gradle/caches/transforms-1/files-1.1/support-compat-28.0.0.aar/c4328ddfd1924be32004e543cc37d75b/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-compat:28.0.0] /home/gregory/.gradle/caches/transforms-1/files-1.1/support-compat-28.0.0.aar/c4328ddfd1924be32004e543cc37d75b/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:versionedparcelable:28.0.0] /home/gregory/.gradle/caches/transforms-1/files-1.1/versionedparcelable-28.0.0.aar/2357a247201b68f3057c85fefc1b9304/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:versionedparcelable:28.0.0] /home/gregory/.gradle/caches/transforms-1/files-1.1/versionedparcelable-28.0.0.aar/2357a247201b68f3057c85fefc1b9304/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:cursoradapter:28.0.0] /home/gregory/.gradle/caches/transforms-1/files-1.1/cursoradapter-28.0.0.aar/081776f63c0ba0e64bce1b5414a396ec/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:cursoradapter:28.0.0] /home/gregory/.gradle/caches/transforms-1/files-1.1/cursoradapter-28.0.0.aar/081776f63c0ba0e64bce1b5414a396ec/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:cardview-v7:28.0.0] /home/gregory/.gradle/caches/transforms-1/files-1.1/cardview-v7-28.0.0.aar/68335ab3dcbfb72cb011ca3e07449c6f/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:cardview-v7:28.0.0] /home/gregory/.gradle/caches/transforms-1/files-1.1/cardview-v7-28.0.0.aar/68335ab3dcbfb72cb011ca3e07449c6f/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:runtime:1.1.1] /home/gregory/.gradle/caches/transforms-1/files-1.1/runtime-1.1.1.aar/529a39f58d93ca3ed2f88e0507c85b7e/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:runtime:1.1.1] /home/gregory/.gradle/caches/transforms-1/files-1.1/runtime-1.1.1.aar/529a39f58d93ca3ed2f88e0507c85b7e/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:documentfile:28.0.0] /home/gregory/.gradle/caches/transforms-1/files-1.1/documentfile-28.0.0.aar/0aef58b76277dcb86fa70d6dd76b169d/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:documentfile:28.0.0] /home/gregory/.gradle/caches/transforms-1/files-1.1/documentfile-28.0.0.aar/0aef58b76277dcb86fa70d6dd76b169d/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:localbroadcastmanager:28.0.0] /home/gregory/.gradle/caches/transforms-1/files-1.1/localbroadcastmanager-28.0.0.aar/94446a3369a59e3bd2aeff6eb88c96e3/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:localbroadcastmanager:28.0.0] /home/gregory/.gradle/caches/transforms-1/files-1.1/localbroadcastmanager-28.0.0.aar/94446a3369a59e3bd2aeff6eb88c96e3/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:print:28.0.0] /home/gregory/.gradle/caches/transforms-1/files-1.1/print-28.0.0.aar/f5df57b6cbe57c5ea4a0becf011d1b20/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:print:28.0.0] /home/gregory/.gradle/caches/transforms-1/files-1.1/print-28.0.0.aar/f5df57b6cbe57c5ea4a0becf011d1b20/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:viewmodel:1.1.1] /home/gregory/.gradle/caches/transforms-1/files-1.1/viewmodel-1.1.1.aar/8c0a1d7b0e40395409add660f20448dd/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:viewmodel:1.1.1] /home/gregory/.gradle/caches/transforms-1/files-1.1/viewmodel-1.1.1.aar/8c0a1d7b0e40395409add660f20448dd/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:interpolator:28.0.0] /home/gregory/.gradle/caches/transforms-1/files-1.1/interpolator-28.0.0.aar/9376bbe7b09bf2dad8cc7add8fba39d0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:interpolator:28.0.0] /home/gregory/.gradle/caches/transforms-1/files-1.1/interpolator-28.0.0.aar/9376bbe7b09bf2dad8cc7add8fba39d0/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata:1.1.1] /home/gregory/.gradle/caches/transforms-1/files-1.1/livedata-1.1.1.aar/5c14f560e1d5b0cec6367eb49d2112f1/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata:1.1.1] /home/gregory/.gradle/caches/transforms-1/files-1.1/livedata-1.1.1.aar/5c14f560e1d5b0cec6367eb49d2112f1/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata-core:1.1.1] /home/gregory/.gradle/caches/transforms-1/files-1.1/livedata-core-1.1.1.aar/94f8da1cd5a4c05a9f92d6e4f89e5a42/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata-core:1.1.1] /home/gregory/.gradle/caches/transforms-1/files-1.1/livedata-core-1.1.1.aar/94f8da1cd5a4c05a9f92d6e4f89e5a42/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.core:runtime:1.1.1] /home/gregory/.gradle/caches/transforms-1/files-1.1/runtime-1.1.1.aar/adaff753101ff03ba01663544bdb4c63/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.core:runtime:1.1.1] /home/gregory/.gradle/caches/transforms-1/files-1.1/runtime-1.1.1.aar/adaff753101ff03ba01663544bdb4c63/AndroidManifest.xml:20:5-44
+INJECTED from /home/gregory/Documents/Uni/Uni-Interactive-Devices/android/app/src/main/AndroidManifest.xml
+INJECTED from /home/gregory/Documents/Uni/Uni-Interactive-Devices/android/app/src/main/AndroidManifest.xml
+	android:targetSdkVersion
+		INJECTED from /home/gregory/Documents/Uni/Uni-Interactive-Devices/android/app/src/main/AndroidManifest.xml
+		ADDED from /home/gregory/Documents/Uni/Uni-Interactive-Devices/android/app/src/main/AndroidManifest.xml
+		INJECTED from /home/gregory/Documents/Uni/Uni-Interactive-Devices/android/app/src/main/AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from /home/gregory/Documents/Uni/Uni-Interactive-Devices/android/app/src/main/AndroidManifest.xml
+		ADDED from /home/gregory/Documents/Uni/Uni-Interactive-Devices/android/app/src/main/AndroidManifest.xml
+		INJECTED from /home/gregory/Documents/Uni/Uni-Interactive-Devices/android/app/src/main/AndroidManifest.xml
