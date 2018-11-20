@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="top"
+        android:orientation="vertical"
+        >
+
+        <TextView
+            android:id="@+id/full_name_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:text="@string/field_full_name" />
+
+        <EditText
+            android:id="@+id/full_name_value"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:ems="10"
+            android:inputType="textPersonName" />
+
+        <in.championswimmer.libsocialbuttons.BtnSocial xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/button_facebook"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/button_facebook"
+            app:social="facebook" />
+
+        <in.championswimmer.libsocialbuttons.BtnSocial xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/button_twitter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/button_twitter"
+            app:social="twitter" />
+
+        <in.championswimmer.libsocialbuttons.BtnSocial xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/button_linkedin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/button_linkedin"
+            app:social="linkedin" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/button"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0"
+        android:text="Save to Amulink"/>
+</LinearLayout>
+

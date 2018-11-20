@@ -25,6 +25,23 @@ animator mtrl_fab_hide_motion_spec
 animator mtrl_fab_show_motion_spec
 animator mtrl_fab_transformation_sheet_collapse_spec
 animator mtrl_fab_transformation_sheet_expand_spec
+array available_buttons
+array dropbox
+array facebook
+array flicker
+array foursquare
+array google
+array instagram
+array linkedin
+array odnoklassniki
+array pinterest
+array quora
+array tumblr
+array twitter
+array vine
+array vkontakte
+array whatsapp
+array youtube
 attr actionBarDivider
 attr actionBarItemBackground
 attr actionBarPopupTheme
@@ -435,6 +452,7 @@ attr singleLine
 attr singleSelection
 attr snackbarButtonStyle
 attr snackbarStyle
+attr social
 attr spanCount
 attr spinBars
 attr spinnerDropDownItemStyle
@@ -625,12 +643,19 @@ color dim_foreground_disabled_material_dark
 color dim_foreground_disabled_material_light
 color dim_foreground_material_dark
 color dim_foreground_material_light
+color dropbox
 color error_color_material_dark
 color error_color_material_light
+color facebook
+color flickr
 color foreground_material_dark
 color foreground_material_light
+color foursquare
+color googleplus
 color highlighted_text_material_dark
 color highlighted_text_material_light
+color instagram
+color linkedin
 color material_blue_grey_800
 color material_blue_grey_900
 color material_blue_grey_950
@@ -671,6 +696,8 @@ color mtrl_textinput_filled_box_default_background_color
 color mtrl_textinput_hovered_box_stroke_color
 color notification_action_color_filter
 color notification_icon_bg_color
+color odnoklassniki
+color pinterest
 color primary_dark_material_dark
 color primary_dark_material_light
 color primary_material_dark
@@ -679,12 +706,15 @@ color primary_text_default_material_dark
 color primary_text_default_material_light
 color primary_text_disabled_material_dark
 color primary_text_disabled_material_light
+color quora
+color ripple
 color ripple_material_dark
 color ripple_material_light
 color secondary_text_default_material_dark
 color secondary_text_default_material_light
 color secondary_text_disabled_material_dark
 color secondary_text_disabled_material_light
+color snapchat
 color switch_thumb_disabled_material_dark
 color switch_thumb_disabled_material_light
 color switch_thumb_material_dark
@@ -693,6 +723,12 @@ color switch_thumb_normal_material_dark
 color switch_thumb_normal_material_light
 color tooltip_background_dark
 color tooltip_background_light
+color tumblr
+color twitter
+color vine
+color vkontakte
+color whatsapp
+color youtube
 dimen abc_action_bar_content_inset_material
 dimen abc_action_bar_content_inset_with_nav
 dimen abc_action_bar_default_height_material
@@ -902,6 +938,7 @@ dimen notification_small_icon_size_as_large
 dimen notification_subtext_size
 dimen notification_top_pad
 dimen notification_top_pad_large_text
+dimen social_button_padding
 dimen tooltip_corner_radius
 dimen tooltip_horizontal_padding
 dimen tooltip_margin
@@ -1009,6 +1046,22 @@ drawable ic_mtrl_chip_checked_circle
 drawable ic_mtrl_chip_close_circle
 drawable ic_people_black_24dp
 drawable ic_person_black_24dp
+drawable logo_dropbox
+drawable logo_facebook
+drawable logo_flickr
+drawable logo_foursquare
+drawable logo_google
+drawable logo_instagram
+drawable logo_linkedin
+drawable logo_odnoklassniki
+drawable logo_pinterest
+drawable logo_quora
+drawable logo_tumblr
+drawable logo_twitter
+drawable logo_vine
+drawable logo_vkontakte
+drawable logo_whatsapp
+drawable logo_youtube
 drawable mtrl_snackbar_background
 drawable mtrl_tabs_default_indicator
 drawable navigation_empty_icon
@@ -1061,7 +1114,11 @@ id barrier
 id beginning
 id blocking
 id bottom
+id button
 id buttonPanel
+id button_facebook
+id button_linkedin
+id button_twitter
 id center
 id center_horizontal
 id center_vertical
@@ -1087,6 +1144,7 @@ id design_navigation_view
 id dimensions
 id direct
 id disableHome
+id dropbox
 id edit_query
 id end
 id enterAlways
@@ -1094,14 +1152,20 @@ id enterAlwaysCollapsed
 id exitUntilCollapsed
 id expand_activities_button
 id expanded_menu
+id facebook
 id fill
 id fill_horizontal
 id fill_vertical
 id filled
 id fixed
+id flicker
 id forever
+id foursquare
+id full_name_label
+id full_name_value
 id ghost_view
 id gone
+id google
 id group_divider
 id groups
 id home
@@ -1111,6 +1175,7 @@ id icon_group
 id ifRoom
 id image
 id info
+id instagram
 id invisible
 id italic
 id item_touch_helper_previous_elevation
@@ -1119,6 +1184,7 @@ id largeLabel
 id left
 id line1
 id line3
+id linkedin
 id listMode
 id list_item
 id masked
@@ -1138,6 +1204,7 @@ id normal
 id notification_background
 id notification_main_column
 id notification_main_column_container
+id odnoklassniki
 id outline
 id packed
 id parallax
@@ -1146,8 +1213,10 @@ id parentPanel
 id parent_matrix
 id percent
 id pin
+id pinterest
 id progress_circular
 id progress_horizontal
+id quora
 id radio
 id right
 id right_icon
@@ -1219,15 +1288,21 @@ id transition_layout_save
 id transition_position
 id transition_scene_layoutid_cache
 id transition_transform
+id tumblr
+id twitter
 id uniform
 id unlabeled
 id up
 id useLogo
 id view_offset_helper
+id vine
 id visible
+id vkontakte
+id whatsapp
 id withText
 id wrap
 id wrap_content
+id youtube
 integer abc_config_activityDefaultDur
 integer abc_config_activityShortDur
 integer app_bar_elevation_anim_duration
@@ -1290,6 +1365,7 @@ layout design_navigation_item_subheader
 layout design_navigation_menu
 layout design_navigation_menu_item
 layout design_text_input_password_icon
+layout layout_me
 layout mtrl_layout_snackbar
 layout mtrl_layout_snackbar_include
 layout notification_action
@@ -1347,10 +1423,17 @@ string abc_toolbar_collapse_description
 string app_name
 string appbar_scrolling_view_behavior
 string bottom_sheet_behavior
+string button_facebook
+string button_facebook_connected
+string button_linkedin
+string button_linkedin_connected
+string button_twitter
+string button_twitter_connected
 string character_counter_content_description
 string character_counter_pattern
 string fab_transformation_scrim_behavior
 string fab_transformation_sheet_behavior
+string field_full_name
 string hide_bottom_view_on_scroll_behavior
 string mtrl_chip_close_icon_content_description
 string password_toggle_content_description
@@ -1922,6 +2005,7 @@ styleable ScrollingViewBehavior_Layout behavior_overlapTop
 styleable SearchView android_focusable android_maxWidth android_inputType android_imeOptions closeIcon commitIcon defaultQueryHint goIcon iconifiedByDefault layout queryBackground queryHint searchHintIcon searchIcon submitBackground suggestionRowLayout voiceIcon
 styleable Snackbar snackbarButtonStyle snackbarStyle
 styleable SnackbarLayout android_maxWidth elevation maxActionInlineWidth
+styleable Social social
 styleable Spinner android_entries android_popupBackground android_prompt android_dropDownWidth popupTheme
 styleable StateListDrawable android_dither android_visible android_variablePadding android_constantSize android_enterFadeDuration android_exitFadeDuration
 styleable StateListDrawableItem android_drawable

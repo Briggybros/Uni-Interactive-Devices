@@ -1,4 +1,4 @@
-#Tue Nov 20 14:50:44 GMT 2018
+#Tue Nov 20 15:56:14 GMT 2018
 base.0=/home/gregory/Documents/Uni/Uni-Interactive-Devices/android/app/build/intermediates/transforms/dexMerger/debug/3
 path.0=classes.dex
 renamed.0=classes.dex
