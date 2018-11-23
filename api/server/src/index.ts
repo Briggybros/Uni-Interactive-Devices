@@ -1,7 +1,6 @@
 import * as path from 'path';
 import express from 'express';
 import bodyParser from 'body-parser';
-import ejs from 'ejs';
 import uuidv4 from 'uuid/v4';
 
 interface User {
@@ -9,11 +8,17 @@ interface User {
 }
 
 const PORT = process.env.PORT || 8080;
+const DIST = path.join(__dirname, '..', '..', 'frontend', 'dist');
 
-let data: { [userId: string]: User } = {};
+let data: { [userId: string]: User } = {
+  ['greg.sims']: {
+    fullName: 'Gregory Sims',
+  },
+};
 
 const app = express();
 app.use(bodyParser.json());
+app.use(express.static(DIST));
 
 app.get('/:userId', (req, res) => {
   const api = req.accepts().includes('application/json');
@@ -26,22 +31,9 @@ app.get('/:userId', (req, res) => {
   }
 
   if (api) {
-    res.send(JSON.stringify(data[userId]));
+    res.send(JSON.stringify(user));
   } else {
-    ejs.renderFile(
-      path.join(__dirname, 'profile.ejs'),
-      {
-        user,
-      },
-      (err, str) => {
-        if (err) {
-          console.error(err);
-          return res.sendStatus(500);
-        }
-
-        res.send(str);
-      }
-    );
+    res.sendFile(path.join(DIST, 'index.html'));
   }
 });
 
