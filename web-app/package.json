@@ -54,6 +54,7 @@
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
     "redux": "^4.0.1",
-    "redux-persist": "^5.10.0"
+    "redux-persist": "^5.10.0",
+    "simple-icons": "^1.9.14"
   }
 }

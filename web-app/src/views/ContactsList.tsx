@@ -4,12 +4,13 @@ import { Link } from 'react-router-dom';
 
 import AppBar from '../components/AppBar';
 import {
-  GridList,
-  GridListTile,
-  GridListTileBar,
+  List,
+  ListItem,
+  ListItemText,
+  Avatar,
   IconButton,
 } from '@material-ui/core';
-import { DeleteForever } from '@material-ui/icons';
+import { Person, Delete } from '@material-ui/icons';
 
 import { State as Store, UserRecord, deleteUser } from '../reducer';
 
@@ -21,32 +22,30 @@ interface Props {
 const ContactsList = (props: Props) => (
   <>
     <AppBar title="Contacts" />
-    <GridList cols={2} cellHeight={200}>
+    <List>
       {props.contacts.map(contact => (
-        <GridListTile
+        <ListItem
           key={contact.userId}
           component={(props: any) => (
             <Link to={`/${contact.userId}`} {...props} />
           )}
         >
-          <img src="https://www.runrevel.com/files/imgs/unknown_user.jpg" />
-          <GridListTileBar
-            title={contact.fullName}
-            actionIcon={
-              <IconButton
-                onClick={e => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  props.deleteUser(contact.userId);
-                }}
-              >
-                <DeleteForever />
-              </IconButton>
-            }
-          />
-        </GridListTile>
+          <Avatar>
+            <Person />
+          </Avatar>
+          <ListItemText primary={contact.fullName} />
+          <IconButton
+            onClick={e => {
+              e.preventDefault();
+              e.stopPropagation();
+              props.deleteUser(contact.userId);
+            }}
+          >
+            <Delete />
+          </IconButton>
+        </ListItem>
       ))}
-    </GridList>
+    </List>
   </>
 );
 

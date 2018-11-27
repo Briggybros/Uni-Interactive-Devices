@@ -6,30 +6,12 @@ import uuidv4 from 'uuid/v4';
 
 import User from '../../common/user';
 
+// @ts-ignore
+import demoData from './demo.json';
+
 const PORT = process.env.PORT || 8081;
 
-let data: { [userId: string]: User } = {
-  ['greg.sims']: {
-    userId: 'greg.sims',
-    fullName: 'Gregory Sims',
-  },
-  ['esta.cooksley']: {
-    userId: 'esta.cooksley',
-    fullName: 'Esta Cooksley',
-  },
-  ['ben.norris']: {
-    userId: 'ben.norris',
-    fullName: 'Ben Norris',
-  },
-  ['bilal.kazi']: {
-    userId: 'bilai.kazi',
-    fullName: 'Bilal Kazi',
-  },
-  ['aidan.ball']: {
-    userId: 'aidan.ball',
-    fullName: 'Aidan Ball',
-  },
-};
+let data: { [userId: string]: User } = demoData;
 
 const app = express();
 app.use(bodyParser.json());

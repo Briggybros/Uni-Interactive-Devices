@@ -5,6 +5,7 @@
     "rootDir": "../",
 
     "strict": true,
+    "resolveJsonModule": true,
 
     "moduleResolution": "node",
     "esModuleInterop": true

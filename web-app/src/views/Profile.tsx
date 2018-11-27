@@ -3,9 +3,12 @@ import { connect } from 'react-redux';
 import { RouteComponentProps, StaticContext } from 'react-router';
 
 import { State as Store, Contacts, addUser, updateUser } from '../reducer';
-import AppBar from '../components/AppBar';
-
 import User from '../../../common/user';
+
+import { List, ListItem, ListItemText } from '@material-ui/core';
+
+import AppBar from '../components/AppBar';
+import SocialIcon from '../components/SocialIcon';
 
 interface ProfileProps {
   user: User;
@@ -14,6 +17,18 @@ interface ProfileProps {
 const Profile = ({ user }: ProfileProps) => (
   <>
     <AppBar title={user.fullName} back />
+    <List>
+      {user.links &&
+        user.links.map(link => (
+          <ListItem
+            key={link.link}
+            component={(props: any) => <a href={link.link} {...props} />}
+          >
+            <SocialIcon type={link.name} />
+            <ListItemText primary={link.name} />
+          </ListItem>
+        ))}
+    </List>
   </>
 );
 
