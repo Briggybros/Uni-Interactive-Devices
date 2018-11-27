@@ -30,7 +30,7 @@ app.get('/:userId', (req, res) => {
 
 function validateUser(user: any): User | null {
   if (typeof user === 'object' && typeof user.fullName === 'string') {
-    return <User>user;
+    return user as User;
   }
   return null;
 }
