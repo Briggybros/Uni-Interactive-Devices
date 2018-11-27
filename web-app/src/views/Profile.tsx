@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { RouteComponentProps, StaticContext } from 'react-router';
 
 import { State as Store, Contacts, addUser, updateUser } from '../reducer';
-import User from '../../../common/user';
+import { User } from '../../../common/types';
 
 import { List, ListItem, ListItemText } from '@material-ui/core';
 
@@ -48,7 +48,7 @@ export default connect(
 
   React.useEffect(
     () => {
-      fetch(`http://localhost:8081/${userId}`, {
+      fetch(`http://localhost:8081/users/${userId}`, {
         headers: {
           Accept: 'application/json',
         },
