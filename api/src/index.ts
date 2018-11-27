@@ -1,28 +1,41 @@
 import * as path from 'path';
 import express from 'express';
 import bodyParser from 'body-parser';
+import cors from 'cors';
 import uuidv4 from 'uuid/v4';
 
-interface User {
-  fullName: string;
-}
+import User from '../../common/user';
 
-const PORT = process.env.PORT || 8080;
-const DIST = path.join(__dirname, '..', '..', 'frontend', 'dist');
+const PORT = process.env.PORT || 8081;
 
 let data: { [userId: string]: User } = {
   ['greg.sims']: {
+    userId: 'greg.sims',
     fullName: 'Gregory Sims',
+  },
+  ['esta.cooksley']: {
+    userId: 'esta.cooksley',
+    fullName: 'Esta Cooksley',
+  },
+  ['ben.norris']: {
+    userId: 'ben.norris',
+    fullName: 'Ben Norris',
+  },
+  ['bilal.kazi']: {
+    userId: 'bilai.kazi',
+    fullName: 'Bilal Kazi',
+  },
+  ['aidan.ball']: {
+    userId: 'aidan.ball',
+    fullName: 'Aidan Ball',
   },
 };
 
 const app = express();
 app.use(bodyParser.json());
-app.use(express.static(DIST));
+app.use(cors());
 
 app.get('/:userId', (req, res) => {
-  const api = req.accepts().includes('application/json');
-
   const { userId } = req.params;
   const user = data[userId];
 
@@ -30,11 +43,7 @@ app.get('/:userId', (req, res) => {
     return res.sendStatus(404);
   }
 
-  if (api) {
-    res.send(JSON.stringify(user));
-  } else {
-    res.sendFile(path.join(DIST, 'index.html'));
-  }
+  res.send(JSON.stringify(user));
 });
 
 function validateUser(user: any): User | null {

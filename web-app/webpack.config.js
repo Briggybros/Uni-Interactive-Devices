@@ -2,6 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const env = process.env.ENV;
 
@@ -34,7 +35,12 @@ module.exports = {
       template: path.join(__dirname, 'src', 'index.html'),
       filename: 'index.html',
     }),
-    new webpack.HotModuleReplacementPlugin(),
+    new CopyWebpackPlugin([
+      {
+        from: path.join(__dirname, 'src', 'static'),
+        to: path.join(__dirname, 'dist'),
+      },
+    ]),
     new webpack.EnvironmentPlugin({
       ENV: env,
     }),
@@ -43,5 +49,13 @@ module.exports = {
     filename: '[name].bundle.js',
     path: path.resolve(__dirname, 'dist'),
     publicPath: '/',
+  },
+  devServer: {
+    contentBase: path.join(__dirname, 'dist'),
+    compress: true,
+    port: 8080,
+    historyApiFallback: {
+      rewrites: [{ from: '/*', to: '/' }],
+    },
   },
 };
