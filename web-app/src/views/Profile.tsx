@@ -25,7 +25,7 @@ const Profile = ({ user }: ProfileProps) => (
             component={(props: any) => <a href={link.link} {...props} />}
           >
             <SocialIcon type={link.name} />
-            <ListItemText primary={link.name} />
+            <ListItemText primary={`Connect with: ${link.name}`} />
           </ListItem>
         ))}
     </List>
