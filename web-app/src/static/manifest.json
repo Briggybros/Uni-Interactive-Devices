@@ -1,0 +1,10 @@
+{
+  "short_name": "Amulink",
+  "name": "Amulink",
+  "icons": [],
+  "start_url": "/",
+  "background_color": "#3e51b5",
+  "display": "standalone",
+  "scope": "/",
+  "theme_color": "#3e51b5"
+}
