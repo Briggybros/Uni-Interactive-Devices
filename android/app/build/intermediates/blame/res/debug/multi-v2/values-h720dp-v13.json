@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "/home/gregory/Documents/Uni/Uni-Interactive-Devices/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-h720dp-v13/values-h720dp-v13.xml",
+            "outputFile": "/Users/bkazi/Documents/interactive-devices/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-h720dp-v13/values-h720dp-v13.xml",
             "map": [
                 {
-                    "source": "/home/gregory/.gradle/caches/transforms-1/files-1.1/appcompat-v7-28.0.0.aar/29a401bab5372db87df9e3c9194da3b7/res/values-h720dp-v13/values-h720dp-v13.xml",
+                    "source": "/Users/bkazi/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.0.aar/453e56eb4933a43e00b3debb08a1dd69/res/values-h720dp-v13/values-h720dp-v13.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",

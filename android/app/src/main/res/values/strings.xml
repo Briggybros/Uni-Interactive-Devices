@@ -1,15 +1,3 @@
 <resources>
-    <string name="app_name">Amulink</string>
-
-    <string name="title_me">Me</string>
-    <string name="title_connected">Connected</string>
-
-    <string name="field_full_name">Full name:</string>
-
-    <string name="button_twitter">Connect to Twitter</string>
-    <string name="button_twitter_connected">Disconnect from Twitter</string>
-    <string name="button_facebook">Connect to Facebook</string>
-    <string name="button_facebook_connected">Disconnect from Facebook</string>
-    <string name="button_linkedin">Connect to LinkedIn</string>
-    <string name="button_linkedin_connected">Disconnect from LinkedIn</string>
+    <string name="app_name">Interactive Lanyard</string>
 </resources>
