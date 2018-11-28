@@ -12,11 +12,10 @@ import Profile from './views/Profile';
 
 import reducer from './reducer';
 
-const store = createStore(
-  persistReducer({ storage, key: 'root' }, reducer),
-  (window as any).__REDUX_DEVTOOLS_EXTENSION__ &&
-    (window as any).__REDUX_DEVTOOLS_EXTENSION__()
-);
+const persistedReducer = persistReducer({ storage, key: 'root' }, reducer);
+
+const store = createStore(persistedReducer);
+
 const persistor = persistStore(store);
 
 const mount = document.getElementById('app');
