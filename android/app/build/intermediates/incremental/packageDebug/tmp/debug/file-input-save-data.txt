@@ -1,7 +1,0 @@
-#Internal package file, do not edit.
-#Wed Nov 28 11:26:27 GMT 2018
-0.baseType=DIRECTORY
-0.base=/Users/bkazi/Documents/interactive-devices/android/app/build/intermediates/transforms/dexMerger/debug/0
-0.path=classes.dex
-0.set=DEX
-count=1

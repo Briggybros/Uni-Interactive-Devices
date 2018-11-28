@@ -1,4 +1,0 @@
-#Wed Nov 28 11:26:27 GMT 2018
-base.0=/Users/bkazi/Documents/interactive-devices/android/app/build/intermediates/transforms/dexMerger/debug/0
-path.0=classes.dex
-renamed.0=classes.dex
