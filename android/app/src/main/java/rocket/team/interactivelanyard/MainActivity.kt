@@ -7,9 +7,13 @@ import java.util.UUID
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothSocket
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
@@ -17,9 +21,27 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
+    private var btSocket: BluetoothSocket? = null
+    private var outStream: OutputStream? = null
     private lateinit var btAdapter: BluetoothAdapter
-    private lateinit var btSocket: BluetoothSocket
-    private lateinit var outStream: OutputStream
+    private lateinit var rvAdapter: BtDeviceAdapter
+    private val btDevices: HashMap<String, DeviceItem> = HashMap()
+
+    private val bReceiver = object : BroadcastReceiver() {
+        // TODO: handle spinning logic
+        override fun onReceive(context: Context, intent: Intent) {
+            val action = intent.action
+            if (action == BluetoothDevice.ACTION_FOUND) {
+                val device = intent.getParcelableExtra<BluetoothDevice>(BluetoothDevice.EXTRA_DEVICE)
+                val newDevice = DeviceItem(device.name ?: device.address, device.address)
+                if (btDevices.containsKey(device.address)) {
+                    rvAdapter.changeItem(device.address, newDevice)
+                } else {
+                    rvAdapter.addItem(device.address, newDevice)
+                }
+            }
+        }
+    }
 
     /** Called when the activity is first created.  */
     public override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,9 +51,29 @@ class MainActivity : AppCompatActivity() {
         btAdapter = BluetoothAdapter.getDefaultAdapter()
         checkBTState()
 
-        send_button.setOnClickListener {
-            val name = name_edit_text.text.toString()
-            val deets = deets_edit_text.text.toString()
+        btRecyclerView.layoutManager = LinearLayoutManager(this)
+        rvAdapter = BtDeviceAdapter(btDevices, this) {
+            btAdapter.cancelDiscovery()
+            Toast.makeText(this, "Connecting to ${it.name}", Toast.LENGTH_SHORT).show()
+            connectBluetooth(it.address)
+        }
+        btRecyclerView.adapter = rvAdapter
+
+        scanButton.setOnClickListener {
+            // TODO: Show spinner or something
+            if (btAdapter.isDiscovering) {
+                btAdapter.cancelDiscovery()
+                unregisterReceiver(bReceiver)
+            }
+            rvAdapter.clearItems()
+            btAdapter.startDiscovery()
+            val filter = IntentFilter(BluetoothDevice.ACTION_FOUND)
+            registerReceiver(bReceiver, filter)
+        }
+
+        sendButton.setOnClickListener {
+            val name = nameEditText.text.toString()
+            val deets = deetsEditText.text.toString()
             val data = "{" +
                     "\"name\": \"$name\", " +
                     "\"deets\": \"$deets\"" +
@@ -50,18 +92,9 @@ class MainActivity : AppCompatActivity() {
         return device.createRfcommSocketToServiceRecord(MY_UUID)
     }
 
-    public override fun onResume() {
-        super.onResume()
-
-        Log.d(TAG, "onResume - try connect")
-
-        // Set up a pointer to the remote node using it's address.
+    private fun connectBluetooth(address: String) {
+        // TODO: Store address in a lifecycle resilient state
         val device = btAdapter.getRemoteDevice(address)
-
-        // Two things are needed to make a connection:
-        //   A MAC address, which we got above.
-        //   A Service ID or UUID.  In this case we are using the
-        //     UUID for SPP.
 
         try {
             btSocket = createBluetoothSocket(device)
@@ -76,7 +109,7 @@ class MainActivity : AppCompatActivity() {
         // Establish the connection.  This will block until it connects.
         Log.d(TAG, "Connecting")
         try {
-            btSocket.connect()
+            btSocket?.connect()
             Log.d(TAG, "Connection ok")
         } catch (e: IOException) {
             Log.e(TAG, "Could not connect to socket " + e.message)
@@ -86,11 +119,16 @@ class MainActivity : AppCompatActivity() {
         Log.d(TAG, "Create Socket")
 
         try {
-            outStream = btSocket.outputStream
+            outStream = btSocket?.outputStream
         } catch (e: IOException) {
             Log.e(TAG, "Output stream creation failed " + e.message)
         }
+    }
 
+    public override fun onResume() {
+        super.onResume()
+
+        // TODO: Reconnect to bluetooth on resume
     }
 
     public override fun onPause() {
@@ -99,13 +137,13 @@ class MainActivity : AppCompatActivity() {
         Log.d(TAG, "In onPause()")
 
         try {
-            outStream.flush()
+            outStream?.flush()
         } catch (e: IOException) {
             Log.e(TAG, "Could not flush stream " + e.message)
         }
 
         try {
-            btSocket.close()
+            btSocket?.close()
         } catch (e2: IOException) {
             Log.e(TAG, "Could not close socket " + e2.message)
         }
@@ -124,13 +162,22 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onDestroy() {
+        if (btAdapter.isDiscovering) {
+            unregisterReceiver(bReceiver)
+            btAdapter.cancelDiscovery()
+        }
+        
+        super.onDestroy()
+    }
+
     private fun sendData(message: String): Boolean {
         val msgBuffer = message.toByteArray()
 
         Log.d(TAG, "Send data: $message")
 
         try {
-            outStream.write(msgBuffer)
+            outStream?.write(msgBuffer)
         } catch (e: IOException) {
             Log.e(TAG, e.message)
             return false
@@ -143,8 +190,5 @@ class MainActivity : AppCompatActivity() {
 
         // SPP UUID service
         private val MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB")
-
-        // MAC-address of Bluetooth module (you must edit this line)
-        private const val address = "98:D3:32:31:63:0B"
     }
 }
