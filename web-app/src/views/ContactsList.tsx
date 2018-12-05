@@ -25,10 +25,8 @@ const ContactsList = (props: Props) => (
     <List>
       {props.contacts.map(contact => (
         <ListItem
-          key={contact.userId}
-          component={(props: any) => (
-            <Link to={`/${contact.userId}`} {...props} />
-          )}
+          key={contact.id}
+          component={(props: any) => <Link to={`/${contact.id}`} {...props} />}
         >
           <Avatar>
             <Person />
@@ -38,7 +36,7 @@ const ContactsList = (props: Props) => (
             onClick={e => {
               e.preventDefault();
               e.stopPropagation();
-              props.deleteUser(contact.userId);
+              props.deleteUser(contact.id);
             }}
           >
             <Delete />

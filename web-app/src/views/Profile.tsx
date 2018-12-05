@@ -21,8 +21,8 @@ const Profile = ({ user }: ProfileProps) => (
       {user.links &&
         user.links.map(link => (
           <ListItem
-            key={link.link}
-            component={(props: any) => <a href={link.link} {...props} />}
+            key={link.url}
+            component={(props: any) => <a href={link.url} {...props} />}
           >
             <SocialIcon type={link.name} />
             <ListItemText primary={`Connect with: ${link.name}`} />

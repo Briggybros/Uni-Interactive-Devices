@@ -66,7 +66,7 @@ export default function reducer(
         ...state,
         contacts: {
           ...state.contacts,
-          [action.user.userId]: action.user,
+          [action.user.id]: action.user,
         },
       };
     case ActionTypes.UPDATE_USER_ACTION:
@@ -74,9 +74,9 @@ export default function reducer(
         ...state,
         contacts: {
           ...state.contacts,
-          [action.user.userId]: {
+          [action.user.id]: {
             ...action.user,
-            connectTime: state.contacts[action.user.userId].connectTime,
+            connectTime: state.contacts[action.user.id].connectTime,
           },
         },
       };
