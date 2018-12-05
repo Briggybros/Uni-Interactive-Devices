@@ -20,6 +20,7 @@ export interface User {
   id: string;
   fullName: string;
   links: Link[];
+  badgeId?: string;
 }
 
 export function validateUser(user: any, id = true): User | null {
