@@ -6,7 +6,7 @@ import AppBar from '../components/AppBar';
 
 export default () => (
   <>
-    <AppBar title="Login" />
+    <AppBar title="Login" back />
     <StyledFirebaseAuth
       uiConfig={{
         signInFlow: 'popup',
