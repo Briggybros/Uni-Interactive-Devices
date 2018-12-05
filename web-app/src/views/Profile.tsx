@@ -49,7 +49,7 @@ export default connect(
   React.useEffect(
     () => {
       fetch(
-        `https://us-central1-amulink-42370.cloudfunctions.net/api/users/${userId}`,
+        `https://us-central1-amulink-42370.cloudfunctions.net/api/users/badge/${userId}`,
         {
           headers: {
             Accept: 'application/json',
