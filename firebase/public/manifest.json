@@ -3,8 +3,8 @@
   "name": "Amulink",
   "icons": [],
   "start_url": "/",
-  "background_color": "#3e51b5",
-  "display": "standalone",
   "scope": "/",
+  "display": "standalone",
+  "background_color": "#3e51b5",
   "theme_color": "#3e51b5"
 }
