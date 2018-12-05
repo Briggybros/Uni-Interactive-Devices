@@ -48,11 +48,14 @@ export default connect(
 
   React.useEffect(
     () => {
-      fetch(`http://localhost:8081/users/${userId}`, {
-        headers: {
-          Accept: 'application/json',
-        },
-      })
+      fetch(
+        `https://us-central1-amulink-42370.cloudfunctions.net/api/users/${userId}`,
+        {
+          headers: {
+            Accept: 'application/json',
+          },
+        }
+      )
         .then(response => {
           if (!response.ok) {
             return console.error(`Failed to find user with id: ${userId}`);
