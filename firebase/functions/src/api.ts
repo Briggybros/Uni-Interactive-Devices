@@ -196,5 +196,27 @@ export default function api(db: FirebaseFirestore.Firestore) {
     }
   });
 
+  /* GET USER FROM BADGE ID */
+  api.get('/user/badge/:id', async (req, res) => {
+    const { id } = req.params;
+
+    try {
+      const users = (await db
+        .collection('users')
+        .where('badgeId', '==', id)
+        .get()).docs;
+
+      if (users.length === 0) return res.sendStatus(404);
+      if (users.length > 1)
+        return res
+          .status(500)
+          .send('More than one user registered to that device ID');
+
+      return res.send(users[0].data());
+    } catch (error) {
+      return res.status(500).send(error);
+    }
+  });
+
   return api;
 }
