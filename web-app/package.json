@@ -7,7 +7,7 @@
     "start": "ENV=development webpack-dev-server --open",
     "build": "npm run build:dev",
     "build:dev": "ENV=development webpack -d",
-    "build:prod": "ENV=production webpack -p",
+    "build:prod": "ENV=production webpack -p && rimraf ../firebase/public && mkdir ../firebase/public && cp -r ./dist/* ../firebase/public",
     "test": "npm run reformat && run-p test:*",
     "test:tsc": "tsc --noEmit",
     "test:tslint": "tslint --project .",
