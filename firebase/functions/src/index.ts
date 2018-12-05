@@ -5,8 +5,9 @@ import api from './api';
 
 admin.initializeApp();
 
-export const bilal = functions.https.onRequest((req, res) => {
-  res.sendStatus(200);
+const db = admin.firestore();
+db.settings({
+  timestampsInSnapshots: true,
 });
 
-export const api2 = functions.https.onRequest(api);
+exports.api = functions.https.onRequest(api(db));

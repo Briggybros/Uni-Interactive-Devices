@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { RouteComponentProps, StaticContext } from 'react-router';
 
 import { State as Store, Contacts, addUser, updateUser } from '../reducer';
-import { User } from '../../../common/types';
+import { User } from '../types';
 
 import { List, ListItem, ListItemText } from '@material-ui/core';
 

@@ -1,4 +1,4 @@
-import { User } from '../../common/types';
+import { User } from './types';
 
 export interface UserRecord extends User {
   connectTime: number;
