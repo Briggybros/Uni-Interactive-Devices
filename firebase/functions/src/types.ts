@@ -1,6 +1,7 @@
 export interface Link {
   name: string;
   url: string;
+  visible: boolean;
 }
 
 export function validateLink(link: any): Link | null {
@@ -9,7 +10,9 @@ export function validateLink(link: any): Link | null {
     !!link.name &&
     typeof link.name === 'string' &&
     !!link.link &&
-    typeof link.link === 'string'
+    typeof link.link === 'string' &&
+    !!link.visible &&
+    typeof link.visible === 'boolean'
   ) {
     return link as Link;
   }
