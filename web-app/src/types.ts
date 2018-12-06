@@ -20,18 +20,16 @@ export function validateLink(link: any): Link | null {
 }
 
 export interface User {
-  id: string;
-  fullName: string;
+  displayName: string;
   links: Link[];
   badgeId?: string;
 }
 
-export function validateUser(user: any, id = true): User | null {
+export function validateUser(user: any): User | null {
   if (
     typeof user === 'object' &&
-    (id ? !!user.id && typeof user.id === 'string' : true) &&
-    !!user.fullName &&
-    typeof user.fullName === 'string' &&
+    !!user.displayName &&
+    typeof user.displayName === 'string' &&
     !!user.links &&
     Array.isArray(user.links) &&
     (user.links as any[]).every(link => !!validateLink(link))
