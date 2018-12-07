@@ -1,8 +1,5 @@
 import * as React from 'react';
-import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-
-import AppBar from '../components/AppBar';
 import {
   List,
   ListItem,
@@ -12,46 +9,80 @@ import {
 } from '@material-ui/core';
 import { Person, Delete } from '@material-ui/icons';
 
-import { State as Store, UserRecord, deleteUser } from '../reducer';
+import AppBar from '../components/AppBar';
+import { User } from '../types';
 
-interface Props {
-  contacts: UserRecord[];
-  deleteUser: (userId: string) => void;
+function deleteContact(userId: string, contactId: string) {
+  return fetch(
+    `https://us-central1-amulink-42370.cloudfunctions.net/api/users/${userId}/contacts/${contactId}`,
+    {
+      method: 'DELETE',
+    }
+  )
+    .then(response => {
+      if (response.ok) {
+        return response.json();
+      }
+      throw new Error('Error getting contacts');
+    })
+    .catch(error => console.error(error));
 }
 
-const ContactsList = (props: Props) => (
-  <>
-    <AppBar title="Contacts" />
-    <List>
-      {props.contacts.map(contact => (
-        <ListItem
-          key={contact.id}
-          component={(props: any) => <Link to={`/${contact.id}`} {...props} />}
-        >
-          <Avatar>
-            <Person />
-          </Avatar>
-          <ListItemText primary={contact.fullName} />
-          <IconButton
-            onClick={e => {
-              e.preventDefault();
-              e.stopPropagation();
-              props.deleteUser(contact.id);
-            }}
-          >
-            <Delete />
-          </IconButton>
-        </ListItem>
-      ))}
-    </List>
-  </>
-);
+interface Props {
+  uid: string | null;
+}
 
-export default connect(
-  (store: Store) => ({
-    contacts: Object.values(store.contacts).sort(
-      (a, b) => b.connectTime - a.connectTime
-    ),
-  }),
-  { deleteUser }
-)(ContactsList);
+export default ({ uid }: Props) => {
+  const [contacts, setContacts] = React.useState<{ [userId: string]: User }>(
+    {}
+  );
+
+  React.useEffect(
+    () => {
+      fetch(
+        `https://us-central1-amulink-42370.cloudfunctions.net/api/users/${uid}/contacts`
+      )
+        .then(response => {
+          if (response.ok) {
+            return response.json();
+          }
+          throw new Error('Error getting contacts');
+        })
+        .then(body => {
+          return setContacts(body);
+        })
+        .catch(console.error);
+    },
+    [contacts]
+  );
+
+  return (
+    <>
+      <AppBar title="Contacts" />
+      {!!uid && (
+        <List>
+          {Object.entries(contacts).map(([userId, user]) => (
+            <ListItem
+              key={userId}
+              component={(props: any) => <Link to={`/${userId}`} {...props} />}
+            >
+              <Avatar>
+                <Person />
+              </Avatar>
+              <ListItemText primary={user.displayName} />
+              <IconButton
+                onClick={e => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  deleteContact(uid, userId).then(setContacts);
+                }}
+              >
+                <Delete />
+              </IconButton>
+            </ListItem>
+          ))}
+        </List>
+      )}
+    </>
+  );
+};

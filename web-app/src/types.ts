@@ -23,6 +23,10 @@ export interface User {
   displayName: string;
   links: Link[];
   badgeId?: string;
+  private: boolean;
+  whitelist: string[];
+  requests: string[];
+  contacts: string[];
 }
 
 export function validateUser(user: any): User | null {
@@ -32,7 +36,15 @@ export function validateUser(user: any): User | null {
     typeof user.displayName === 'string' &&
     !!user.links &&
     Array.isArray(user.links) &&
-    (user.links as any[]).every(link => !!validateLink(link))
+    (user.links as any[]).every(link => !!validateLink(link)) &&
+    !!user.private &&
+    typeof user.private === 'boolean' &&
+    !!user.whitelist &&
+    Array.isArray(user.whitelist) &&
+    !!user.requests &&
+    Array.isArray(user.requests) &&
+    !!user.contacts &&
+    Array.isArray(user.contacts)
   ) {
     return user as User;
   }

@@ -11,12 +11,6 @@ export default () => (
       uiConfig={{
         signInFlow: 'popup',
         signInSuccessUrl: '/',
-        callbacks: {
-          signInSuccessWithAuthResult: authResult => {
-            console.log(authResult);
-            return true;
-          },
-        },
         signInOptions: [
           auth.EmailAuthProvider.PROVIDER_ID,
           auth.GoogleAuthProvider.PROVIDER_ID,

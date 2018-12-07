@@ -1,18 +1,11 @@
 import * as React from 'react';
 import { render } from 'react-dom';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { initializeApp } from 'firebase';
-import { createStore } from 'redux';
-import { Provider as ReduxProvider } from 'react-redux';
-import { persistStore, persistReducer } from 'redux-persist';
-import { PersistGate } from 'redux-persist/integration/react';
-import storage from 'redux-persist/lib/storage';
+import { initializeApp, auth } from 'firebase';
 
 import ContactsList from './views/ContactsList';
 import Login from './views/Login';
 import Profile from './views/Profile';
-
-import reducer from './reducer';
 
 initializeApp({
   apiKey: 'AIzaSyDVROG8TY8XNQSGSc9RbdCV0mM5mDK-fUU',
@@ -23,25 +16,27 @@ initializeApp({
   messagingSenderId: '151350003330',
 });
 
-const persistedReducer = persistReducer({ storage, key: 'root' }, reducer);
+let uid: string | null = null;
 
-const store = createStore(persistedReducer);
-
-const persistor = persistStore(store);
+auth().onAuthStateChanged(user => {
+  if (user) {
+    uid = user.uid;
+  } else {
+    uid = null;
+  }
+});
 
 const mount = document.getElementById('app');
 
 render(
-  <ReduxProvider store={store}>
-    <PersistGate persistor={persistor}>
-      <Router>
-        <Switch>
-          <Route exact path="/" component={ContactsList} />
-          <Route path="/login" component={Login} />
-          <Route path="/:userId" component={Profile} />
-        </Switch>
-      </Router>
-    </PersistGate>
-  </ReduxProvider>,
+  <Router>
+    <Switch>
+      <Route exact path="/">
+        <ContactsList uid={uid} />
+      </Route>
+      <Route path="/login" component={Login} />
+      <Route path="/:userId" component={Profile} />
+    </Switch>
+  </Router>,
   mount
 );

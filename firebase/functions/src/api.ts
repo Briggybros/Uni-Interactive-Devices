@@ -196,6 +196,78 @@ export default function api(db: FirebaseFirestore.Firestore) {
     }
   });
 
+  /* USER'S CONTACTS COLLECTION */
+  api.get('/users/:id/contacts', async (req, res) => {
+    const { id } = req.params;
+
+    try {
+      const user = await db
+        .collection('users')
+        .doc(id)
+        .get();
+
+      if (!user.exists) return res.sendStatus(404);
+
+      return res.send((await user.data()).contacts);
+    } catch (error) {
+      return res.status(500).send(error);
+    }
+  });
+
+  api.post('/users/:id/contacts', async (req, res) => {
+    const { id } = req.params;
+    const { contactId } = req.body;
+
+    try {
+      const userRecord = db.collection('users').doc(id);
+
+      if (!(await userRecord.get()).exists) return res.sendStatus(404);
+
+      if (
+        ((await userRecord.get()).data().contacts as string[]).reduce(
+          (acc, c) => acc + (c === contactId ? 1 : 0),
+          0
+        ) > 1
+      )
+        return res.status(400).send('This user is already a contact');
+
+      const newContacts = [
+        ...(await userRecord.get()).data().contacts,
+        contactId,
+      ];
+
+      await userRecord.update({ contacts: newContacts });
+
+      return res.send({ id, ...(await userRecord.get()).data() });
+    } catch (error) {
+      return res.status(500).send(error);
+    }
+  });
+
+  api.delete('/users/:id/contacts/:contactId', async (req, res) => {
+    const { id, contactId } = req.params;
+
+    try {
+      const userRecord = db.collection('users').doc(id);
+
+      if (!(await userRecord.get()).exists) return res.sendStatus(404);
+
+      const contact = ((await userRecord.get()).data()
+        .contact as string[]).find(c => c === contactId);
+
+      if (!contact) return res.sendStatus(404);
+
+      const newContacts = ((await userRecord.get()).data()
+        .contacts as string[]).filter(c => c !== contactId);
+
+      await userRecord.update({ contacts: newContacts });
+
+      return res.send((await userRecord.get()).data().links);
+    } catch (error) {
+      return res.status(500).send(error);
+    }
+  });
+
   /* GET USER FROM BADGE ID */
   api.get('/user/badge/:id', async (req, res) => {
     const { id } = req.params;
