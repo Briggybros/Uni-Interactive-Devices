@@ -18,6 +18,7 @@ export default (props: Props) => {
   const { userId } = props.match.params;
 
   const [user, setUser] = React.useState<User | null>(null);
+  const [needPermission, setNeedPermission] = React.useState<Boolean>(false);
 
   React.useEffect(
     () => {
@@ -27,13 +28,17 @@ export default (props: Props) => {
         }`
       )
         .then(response => {
-          if (!response.ok) {
-            throw new Error(`Failed to find user with id: ${userId}`);
+          if (response.ok) {
+            return response.json();
           }
-          return response.json();
+          if (response.status === 403) {
+            setNeedPermission(true);
+            return null;
+          }
+          throw new Error(`Failed to find user with id: ${userId}`);
         })
         .then(body => {
-          setUser(body);
+          if (body) setUser(body);
         })
         .catch(console.error);
     },
@@ -41,6 +46,12 @@ export default (props: Props) => {
   );
 
   if (user === null) return <span>Loading...</span>;
+
+  if (needPermission) {
+    return (
+      <span>Need permission - although there's no way to request it yet.</span>
+    );
+  }
 
   return (
     <>
