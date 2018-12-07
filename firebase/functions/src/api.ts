@@ -1,7 +1,7 @@
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
 
-import { Link, validateUser, validateLink } from './types';
+import { User, Link, validateUser, validateLink } from './types';
 
 export default function api(db: FirebaseFirestore.Firestore) {
   const api = express();
@@ -12,32 +12,23 @@ export default function api(db: FirebaseFirestore.Firestore) {
   });
 
   /* USERS COLLECTION */
-  api.post('/users', async (req, res) => {
-    const user = validateUser(req.body, false);
-
-    if (!user) {
-      return res.status(400).send('Body is not a valid user');
-    }
-
-    try {
-      const users = db.collection('users');
-      const userRef = await users.add(user);
-      return res.send({ id: userRef.id, ...user });
-    } catch (error) {
-      return res.status(500).send(error);
-    }
-  });
-
   api.get('/users/:id', async (req, res) => {
     const { id } = req.params;
+    const { requestId } = req.query;
 
     try {
-      const user = await db
+      const userRecord = await db
         .collection('users')
         .doc(id)
         .get();
-      if (!user.exists) return res.sendStatus(404);
-      return res.send({ id, ...user.data() });
+      if (!userRecord.exists) return res.sendStatus(404);
+
+      const user = (await userRecord.data()) as User;
+
+      if (user.private && user.whitelist.indexOf(requestId) === -1)
+        return res.sendStatus(403);
+
+      return res.send(userRecord.data());
     } catch (error) {
       return res.status(500).send(error);
     }
@@ -45,7 +36,7 @@ export default function api(db: FirebaseFirestore.Firestore) {
 
   api.put('/users/:id', async (req, res) => {
     const { id } = req.params;
-    const newUser = validateUser(req.body, false);
+    const newUser = validateUser(req.body);
 
     try {
       const userRecord = await db.collection('users').doc(id);
@@ -55,7 +46,7 @@ export default function api(db: FirebaseFirestore.Firestore) {
 
       await userRecord.update({ ...newUser });
 
-      return res.send({ id, ...(await userRecord.get()).data() });
+      return res.send((await userRecord.get()).data());
     } catch (error) {
       return res.status(500).send(error);
     }
@@ -271,6 +262,7 @@ export default function api(db: FirebaseFirestore.Firestore) {
   /* GET USER FROM BADGE ID */
   api.get('/user/badge/:id', async (req, res) => {
     const { id } = req.params;
+    const { requestId } = req.query;
 
     try {
       const users = (await db
@@ -284,7 +276,7 @@ export default function api(db: FirebaseFirestore.Firestore) {
           .status(500)
           .send('More than one user registered to that device ID');
 
-      return res.send(users[0].data());
+      return res.redirect(`${req.get('host')}/${users[0].id}`);
     } catch (error) {
       return res.status(500).send(error);
     }

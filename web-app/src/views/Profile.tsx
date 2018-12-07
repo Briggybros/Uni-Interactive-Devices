@@ -8,7 +8,13 @@ import { List, ListItem, ListItemText } from '@material-ui/core';
 import AppBar from '../components/AppBar';
 import SocialIcon from '../components/SocialIcon';
 
-export default (props: RouteComponentProps<any, StaticContext, any>) => {
+interface ComponentProps {
+  uid: string | null;
+}
+
+type Props = ComponentProps & RouteComponentProps<any, StaticContext, any>;
+
+export default (props: Props) => {
   const { userId } = props.match.params;
 
   const [user, setUser] = React.useState<User | null>(null);
@@ -16,7 +22,9 @@ export default (props: RouteComponentProps<any, StaticContext, any>) => {
   React.useEffect(
     () => {
       fetch(
-        `https://us-central1-amulink-42370.cloudfunctions.net/api/users/badge/${userId}`
+        `https://us-central1-amulink-42370.cloudfunctions.net/api/users/badge/${userId}${
+          !!props.uid ? `?requestId=${props.uid}` : ''
+        }`
       )
         .then(response => {
           if (!response.ok) {

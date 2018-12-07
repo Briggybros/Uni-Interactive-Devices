@@ -35,7 +35,10 @@ render(
         <ContactsList uid={uid} />
       </Route>
       <Route path="/login" component={Login} />
-      <Route path="/:userId" component={Profile} />
+      <Route
+        path="/:userId"
+        render={renderProps => <Profile uid={uid} {...renderProps} />}
+      />
     </Switch>
   </Router>,
   mount
