@@ -9,49 +9,53 @@ import {
 } from '@material-ui/core';
 import { Person, Delete } from '@material-ui/icons';
 
+import { useSession } from '../providers/Session';
 import AppBar from '../components/AppBar';
 import { User } from '../types';
 
-function deleteContact(userId: string, contactId: string) {
-  return fetch(
+async function deleteContact(userId: string, contactId: string) {
+  const response = await fetch(
     `https://us-central1-amulink-42370.cloudfunctions.net/api/users/${userId}/contacts/${contactId}`,
     {
       method: 'DELETE',
     }
-  )
-    .then(response => {
-      if (response.ok) {
-        return response.json();
-      }
-      throw new Error('Error getting contacts');
-    })
-    .catch(error => console.error(error));
+  );
+
+  if (!response.ok) {
+    throw new Error('Error getting contact');
+  }
+
+  return await response.json();
 }
 
 interface Props {
-  uid: string | null;
+  session: firebase.User;
 }
 
-export default ({ uid }: Props) => {
+export default useSession(({ session }: Props) => {
   const [contacts, setContacts] = React.useState<{ [userId: string]: User }>(
     {}
   );
 
   React.useEffect(
     () => {
-      fetch(
-        `https://us-central1-amulink-42370.cloudfunctions.net/api/users/${uid}/contacts`
-      )
-        .then(response => {
-          if (response.ok) {
-            return response.json();
-          }
-          throw new Error('Error getting contacts');
-        })
-        .then(body => {
-          return setContacts(body);
-        })
-        .catch(console.error);
+      if (session) {
+        fetch(
+          `https://us-central1-amulink-42370.cloudfunctions.net/api/users/${
+            session.uid
+          }/contacts`
+        )
+          .then(response => {
+            if (response.ok) {
+              return response.json();
+            }
+            throw new Error('Error getting contacts');
+          })
+          .then(body => {
+            return setContacts(body);
+          })
+          .catch(console.error);
+      }
     },
     [contacts]
   );
@@ -59,7 +63,7 @@ export default ({ uid }: Props) => {
   return (
     <>
       <AppBar title="Contacts" />
-      {!!uid && (
+      {!!session ? (
         <List>
           {Object.entries(contacts).map(([userId, user]) => (
             <ListItem
@@ -74,7 +78,7 @@ export default ({ uid }: Props) => {
                 onClick={e => {
                   e.preventDefault();
                   e.stopPropagation();
-                  deleteContact(uid, userId).then(setContacts);
+                  deleteContact(session.uid, userId).then(setContacts);
                 }}
               >
                 <Delete />
@@ -82,7 +86,9 @@ export default ({ uid }: Props) => {
             </ListItem>
           ))}
         </List>
+      ) : (
+        <span>Please log in to view contacts</span>
       )}
     </>
   );
-};
+});

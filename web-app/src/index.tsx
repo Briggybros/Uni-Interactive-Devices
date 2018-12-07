@@ -3,6 +3,7 @@ import { render } from 'react-dom';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { initializeApp, auth } from 'firebase';
 
+import { SessionProvider } from './providers/Session';
 import ContactsList from './views/ContactsList';
 import Login from './views/Login';
 import Profile from './views/Profile';
@@ -16,30 +17,17 @@ initializeApp({
   messagingSenderId: '151350003330',
 });
 
-let uid: string | null = null;
-
-auth().onAuthStateChanged(user => {
-  if (user) {
-    uid = user.uid;
-  } else {
-    uid = null;
-  }
-});
-
 const mount = document.getElementById('app');
 
 render(
-  <Router>
-    <Switch>
-      <Route exact path="/">
-        <ContactsList uid={uid} />
-      </Route>
-      <Route path="/login" component={Login} />
-      <Route
-        path="/:userId"
-        render={renderProps => <Profile uid={uid} {...renderProps} />}
-      />
-    </Switch>
-  </Router>,
+  <SessionProvider>
+    <Router>
+      <Switch>
+        <Route exact path="/" component={ContactsList} />
+        <Route path="/login" component={Login} />
+        <Route path="/:userId" component={Profile} />
+      </Switch>
+    </Router>
+  </SessionProvider>,
   mount
 );

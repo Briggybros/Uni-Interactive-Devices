@@ -1,20 +1,19 @@
 import * as React from 'react';
 import { RouteComponentProps, StaticContext } from 'react-router';
-
-import { User } from '../types';
-
 import { List, ListItem, ListItemText } from '@material-ui/core';
 
+import { useSession } from '../providers/Session';
 import AppBar from '../components/AppBar';
 import SocialIcon from '../components/SocialIcon';
+import { User } from '../types';
 
 interface ComponentProps {
-  uid: string | null;
+  session: firebase.User | null;
 }
 
 type Props = ComponentProps & RouteComponentProps<any, StaticContext, any>;
 
-export default (props: Props) => {
+export default useSession((props: Props) => {
   const { userId } = props.match.params;
 
   const [user, setUser] = React.useState<User | null>(null);
@@ -24,7 +23,7 @@ export default (props: Props) => {
     () => {
       fetch(
         `https://us-central1-amulink-42370.cloudfunctions.net/api/users/badge/${userId}${
-          !!props.uid ? `?requestId=${props.uid}` : ''
+          !!props.session ? `?requestId=${props.session.uid}` : ''
         }`
       )
         .then(response => {
@@ -70,4 +69,4 @@ export default (props: Props) => {
       </List>
     </>
   );
-};
+});
