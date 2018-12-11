@@ -1,11 +1,17 @@
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
+import * as cors from 'cors';
 
 import { User, Link, validateUser, validateLink } from './types';
 
 export default function api(db: FirebaseFirestore.Firestore) {
   const api = express();
   api.use(bodyParser.json());
+  api.use(
+    cors({
+      origin: true,
+    })
+  );
 
   api.get('/', (_, res) => {
     return res.sendStatus(200);
@@ -28,7 +34,9 @@ export default function api(db: FirebaseFirestore.Firestore) {
       if (user.private && user.whitelist.indexOf(requestId) === -1)
         return res.sendStatus(403);
 
-      return res.send(userRecord.data());
+      const { displayName, links } = userRecord.data();
+
+      return res.send({ displayName, links });
     } catch (error) {
       return res.status(500).send(error);
     }
@@ -262,7 +270,6 @@ export default function api(db: FirebaseFirestore.Firestore) {
   /* GET USER FROM BADGE ID */
   api.get('/user/badge/:id', async (req, res) => {
     const { id } = req.params;
-    const { requestId } = req.query;
 
     try {
       const users = (await db
@@ -278,7 +285,7 @@ export default function api(db: FirebaseFirestore.Firestore) {
 
       return res.redirect(`${req.get('host')}/${users[0].id}`);
     } catch (error) {
-      return res.status(500).send(error);
+      return res.redirect(`${req.get('host')}/`);
     }
   });
 

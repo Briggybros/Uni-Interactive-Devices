@@ -1,1 +1,0 @@
-npm run build:prod --prefix ./web-app/ && rm -rf firebase/public && mkdir firebase/public && cp -r ./web-app/dist/* firebase/public && cd firebase && firebase deploy && cd ..

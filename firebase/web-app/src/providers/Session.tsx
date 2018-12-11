@@ -8,7 +8,14 @@ export const SessionProvider = ({ ...props }) => {
     auth().currentUser
   );
 
-  auth().onAuthStateChanged(u => (u ? setUser(u) : setUser(null)));
+  auth().onAuthStateChanged(u => {
+    if (user === u) return;
+
+    if (!!u) {
+      return setUser(u);
+    }
+    return setUser(null);
+  });
 
   return <SessionContext.Provider value={user} {...props} />;
 };

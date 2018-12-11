@@ -1,11 +1,10 @@
 import * as React from 'react';
 import { render } from 'react-dom';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { initializeApp, auth } from 'firebase';
+import { initializeApp } from 'firebase';
 
 import { SessionProvider } from './providers/Session';
 import ContactsList from './views/ContactsList';
-import Login from './views/Login';
 import Profile from './views/Profile';
 
 initializeApp({
@@ -24,8 +23,23 @@ render(
     <Router>
       <Switch>
         <Route exact path="/" component={ContactsList} />
-        <Route path="/login" component={Login} />
-        <Route path="/:userId" component={Profile} />
+        <Route path="/u/:userId" component={Profile} />
+        <Route
+          path="/b/:badgeId"
+          render={({ match }) => {
+            fetch(
+              `https://us-central1-amulink-42370.cloudfunctions.net/api/user/badge/${
+                match.params.badgeId
+              }`,
+              {
+                mode: 'no-cors',
+                credentials: 'include',
+                redirect: 'follow',
+              }
+            );
+            return null;
+          }}
+        />
       </Switch>
     </Router>
   </SessionProvider>,

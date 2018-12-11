@@ -22,18 +22,19 @@ export default useSession((props: Props) => {
   React.useEffect(
     () => {
       fetch(
-        `https://us-central1-amulink-42370.cloudfunctions.net/api/users/badge/${userId}${
-          !!props.session ? `?requestId=${props.session.uid}` : ''
-        }`
+        `https://us-central1-amulink-42370.cloudfunctions.net/api/users/${userId}`
       )
         .then(response => {
           if (response.ok) {
+            console.log('Response ok!');
             return response.json();
           }
           if (response.status === 403) {
+            console.log('Permission needed');
             setNeedPermission(true);
             return null;
           }
+          console.log('Error: ', response.status);
           throw new Error(`Failed to find user with id: ${userId}`);
         })
         .then(body => {

@@ -11,6 +11,7 @@ import { Person, Delete } from '@material-ui/icons';
 
 import { useSession } from '../providers/Session';
 import AppBar from '../components/AppBar';
+import Login from '../components/Login';
 import { User } from '../types';
 
 async function deleteContact(userId: string, contactId: string) {
@@ -68,7 +69,9 @@ export default useSession(({ session }: Props) => {
           {Object.entries(contacts).map(([userId, user]) => (
             <ListItem
               key={userId}
-              component={(props: any) => <Link to={`/${userId}`} {...props} />}
+              component={(props: any) => (
+                <Link to={`/u/${userId}`} {...props} />
+              )}
             >
               <Avatar>
                 <Person />
@@ -87,7 +90,7 @@ export default useSession(({ session }: Props) => {
           ))}
         </List>
       ) : (
-        <span>Please log in to view contacts</span>
+        <Login text="Please log in to view contacts" />
       )}
     </>
   );
