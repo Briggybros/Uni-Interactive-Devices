@@ -2,14 +2,16 @@ import * as React from 'react';
 import { Link } from 'react-router-dom';
 
 import { AppBar, Toolbar, Typography, IconButton } from '@material-ui/core';
-import { ArrowBack } from '@material-ui/icons';
+import { ArrowBack, Add } from '@material-ui/icons';
 
 interface Props {
   title: string;
   back?: boolean;
+  add?: boolean;
+  onAddClick?: () => any;
 }
 
-export default ({ title, back }: Props) => (
+export default ({ title, back, add, onAddClick }: Props) => (
   <AppBar position="static">
     <Toolbar>
       {back && (
@@ -24,6 +26,11 @@ export default ({ title, back }: Props) => (
       <Typography variant="h6" color="inherit">
         {title}
       </Typography>
+      {add && (
+        <IconButton color="inherit" onClick={onAddClick}>
+          <Add />
+        </IconButton>
+      )}
     </Toolbar>
   </AppBar>
 );

@@ -2,6 +2,7 @@ import { firestore } from 'firebase-admin';
 import * as functions from 'firebase-functions';
 
 import { User } from './types';
+import { request } from 'http';
 
 export function getUserByID(db: firestore.Firestore) {
   return async (data: any, context: functions.https.CallableContext) => {
@@ -28,7 +29,16 @@ export function getUserByID(db: firestore.Firestore) {
 
     const { displayName, links } = userRecord.data();
 
-    return { displayName, links };
+    const requestContacts = (await db
+      .collection('users')
+      .doc(requestId)
+      .get()).data().contacts as string[];
+
+    return {
+      displayName,
+      links,
+      isContact: requestContacts.indexOf(uid) !== -1,
+    };
   };
 }
 
@@ -60,6 +70,24 @@ export function getUserByBadgeID(db: firestore.Firestore) {
   };
 }
 
+export function assignBadgeID(db: firestore.Firestore) {
+  return async (data: any, context: functions.https.CallableContext) => {
+    const uid = context.auth ? context.auth.uid : null;
+    const { id } = data;
+
+    if (!uid) throw new functions.https.HttpsError('unauthenticated');
+    if (!id)
+      throw new functions.https.HttpsError(
+        'invalid-argument',
+        'Id not provided'
+      );
+
+    const userRecord = await db.collection('users').doc(uid);
+    await userRecord.update({ badgeId: id });
+    return { badgeId: (await userRecord.get()).data().badgeId };
+  };
+}
+
 export function getContacts(db: firestore.Firestore) {
   return async (_: any, context: functions.https.CallableContext) => {
     const uid = context.auth ? context.auth.uid : null;
@@ -75,6 +103,36 @@ export function getContacts(db: firestore.Firestore) {
 
     return {
       contacts: (await user.data()).contacts,
+    };
+  };
+}
+
+export function addContact(db: firestore.Firestore) {
+  return async (data: any, context: functions.https.CallableContext) => {
+    const uid = context.auth ? context.auth.uid : null;
+    const { contactId } = data;
+
+    if (!uid) throw new functions.https.HttpsError('unauthenticated');
+    if (!contactId)
+      throw new functions.https.HttpsError(
+        'invalid-argument',
+        'contactId not provided'
+      );
+
+    const userRecord = db.collection('users').doc(uid);
+
+    if (!(await userRecord.get()).exists)
+      throw new functions.https.HttpsError('data-loss');
+
+    const newContacts = [
+      ...((await userRecord.get()).data().contacts as string[]),
+      contactId,
+    ];
+
+    await userRecord.update({ contacts: newContacts });
+
+    return {
+      contacts: (await userRecord.get()).data().contacts,
     };
   };
 }
