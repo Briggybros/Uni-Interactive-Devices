@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { RouteComponentProps, StaticContext } from 'react-router';
+import { functions } from 'firebase';
 import { List, ListItem, ListItemText } from '@material-ui/core';
 
 import { useSession } from '../providers/Session';
@@ -21,25 +22,9 @@ export default useSession((props: Props) => {
 
   React.useEffect(
     () => {
-      fetch(
-        `https://us-central1-amulink-42370.cloudfunctions.net/api/users/${userId}`
-      )
-        .then(response => {
-          if (response.ok) {
-            console.log('Response ok!');
-            return response.json();
-          }
-          if (response.status === 403) {
-            console.log('Permission needed');
-            setNeedPermission(true);
-            return null;
-          }
-          console.log('Error: ', response.status);
-          throw new Error(`Failed to find user with id: ${userId}`);
-        })
-        .then(body => {
-          if (body) setUser(body);
-        })
+      functions()
+        .httpsCallable('getUserByID')({ uid: userId })
+        .then(result => setUser(result.data))
         .catch(console.error);
     },
     [userId]

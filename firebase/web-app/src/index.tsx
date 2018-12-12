@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { render } from 'react-dom';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { initializeApp } from 'firebase';
+import { initializeApp, functions } from 'firebase';
+import 'firebase/functions';
 
 import { SessionProvider } from './providers/Session';
 import ContactsList from './views/ContactsList';
@@ -15,6 +16,7 @@ initializeApp({
   storageBucket: 'amulink-42370.appspot.com',
   messagingSenderId: '151350003330',
 });
+functions();
 
 const mount = document.getElementById('app');
 
@@ -27,16 +29,14 @@ render(
         <Route
           path="/b/:badgeId"
           render={({ match }) => {
-            fetch(
-              `https://us-central1-amulink-42370.cloudfunctions.net/api/user/badge/${
-                match.params.badgeId
-              }`,
-              {
-                mode: 'no-cors',
-                credentials: 'include',
-                redirect: 'follow',
-              }
-            );
+            functions()
+              .httpsCallable('getUserByBadgeID')({
+                id: match.params.badgeId,
+              })
+              .then(response =>
+                window.location.replace(`/${response.data.uid}`)
+              )
+              .catch(console.error);
             return null;
           }}
         />

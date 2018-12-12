@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
+import { functions } from 'firebase';
 import {
   List,
   ListItem,
@@ -14,19 +15,13 @@ import AppBar from '../components/AppBar';
 import Login from '../components/Login';
 import { User } from '../types';
 
-async function deleteContact(userId: string, contactId: string) {
-  const response = await fetch(
-    `https://us-central1-amulink-42370.cloudfunctions.net/api/users/${userId}/contacts/${contactId}`,
-    {
-      method: 'DELETE',
-    }
-  );
-
-  if (!response.ok) {
-    throw new Error('Error getting contact');
+async function deleteContact(contactId: string) {
+  try {
+    return (await functions().httpsCallable('deleteContact')({ contactId }))
+      .data;
+  } catch (error) {
+    console.error(error);
   }
-
-  return await response.json();
 }
 
 interface Props {
@@ -41,20 +36,9 @@ export default useSession(({ session }: Props) => {
   React.useEffect(
     () => {
       if (session) {
-        fetch(
-          `https://us-central1-amulink-42370.cloudfunctions.net/api/users/${
-            session.uid
-          }/contacts`
-        )
-          .then(response => {
-            if (response.ok) {
-              return response.json();
-            }
-            throw new Error('Error getting contacts');
-          })
-          .then(body => {
-            return setContacts(body);
-          })
+        functions()
+          .httpsCallable('getContacts')()
+          .then(response => setContacts(response.data))
           .catch(console.error);
       }
     },
@@ -81,7 +65,7 @@ export default useSession(({ session }: Props) => {
                 onClick={e => {
                   e.preventDefault();
                   e.stopPropagation();
-                  deleteContact(session.uid, userId).then(setContacts);
+                  deleteContact(userId).then(setContacts);
                 }}
               >
                 <Delete />
