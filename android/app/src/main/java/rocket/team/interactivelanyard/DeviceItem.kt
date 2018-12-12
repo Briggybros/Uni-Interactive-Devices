@@ -1,3 +1,6 @@
 package rocket.team.interactivelanyard
 
-data class DeviceItem(val name: String, val address: String, var connected: Boolean = false)
+data class DeviceItem(val address: String) {
+    var name: String = ""
+    var connected: Boolean = false
+}

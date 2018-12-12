@@ -1,62 +1,62 @@
 package rocket.team.interactivelanyard
 
 import android.content.Context
-import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.bluetooth_device_list_item.view.*
 
 class BtDeviceAdapter(
-        private val items : HashMap<String, DeviceItem>,
         private val context: Context,
         private val listener: (DeviceItem) -> Unit
 ) : RecyclerView.Adapter<BtViewHolder>() {
+    private var items: Set<DeviceItem>? = null
 
-    override fun getItemCount(): Int {
-        return items.size
-    }
+    override fun getItemCount() = items?.size ?: 0
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BtViewHolder {
         return BtViewHolder(LayoutInflater.from(context).inflate(R.layout.bluetooth_device_list_item, parent, false))
     }
 
     override fun onBindViewHolder(holder: BtViewHolder, position: Int) {
-        val key = ArrayList<String>(items.keys)[position]
-        val item = items[key]
-        if (item != null) {
-            holder.bind(item, listener)
-        }
+        val item = items!!.elementAt(position)
+        holder.bind(item, listener)
     }
 
-    fun addItem(key: String, item: DeviceItem) {
-        if (items.containsKey(key)) {
-            Log.e("BtDeviceAdapter", "Already contains key")
-            return
-        }
-        items[key] = item
-        notifyDataSetChanged()
-    }
-
-    fun changeItem(key: String, item: DeviceItem) {
-        if (!items.containsKey(key)) {
-            Log.e("BtDeviceAdapter", "No such key")
-            return
-        }
-        items[key] = item
-        notifyDataSetChanged()
-    }
-
-    fun clearItems() {
-        items.clear()
-        notifyDataSetChanged()
+    fun setItems(newItems: Set<DeviceItem>) {
+//        if (items == null) {
+            items = newItems
+            notifyItemRangeChanged(0, newItems.size)
+//        } else {
+//            val result = DiffUtil.calculateDiff(object : DiffUtil.Callback() {
+//                override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+//                    Log.d("BtDeviceAdapter", "old $oldItemPosition new $newItemPosition")
+//                    return items!!.elementAt(oldItemPosition) == newItems.elementAt(newItemPosition)
+//                }
+//
+//                override fun getOldListSize() = items!!.size
+//
+//                override fun getNewListSize() = newItems.size
+//
+//                override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+//                    Log.d("BtDeviceAdapter", "old $oldItemPosition new $newItemPosition")
+//                    val oldItem = items!!.elementAt(oldItemPosition)
+//                    val newItem = newItems.elementAt(newItemPosition)
+//                    return oldItem == newItem && oldItem.name == newItem.name
+//                }
+//            })
+//            items = newItems
+//            result.dispatchUpdatesTo(this)
+//        }
     }
 }
 
 class BtViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
     fun bind(item: DeviceItem, listener: (DeviceItem) -> Unit) = with(view) {
-        deviceDetails.text = item.name
+        deviceDetails.text = if (item.name != "") item.name else item.address
         setOnClickListener {
             listener(item)
         }
