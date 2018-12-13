@@ -2,7 +2,6 @@ import { firestore } from 'firebase-admin';
 import * as functions from 'firebase-functions';
 
 import { User } from './types';
-import { request } from 'http';
 
 export function getUserByID(db: firestore.Firestore) {
   return async (data: any, context: functions.https.CallableContext) => {
@@ -81,6 +80,13 @@ export function assignBadgeID(db: firestore.Firestore) {
         'invalid-argument',
         'Id not provided'
       );
+
+    const records = await db
+      .collection('users')
+      .where('badgeId', '==', id)
+      .get();
+
+    records.forEach(record => record.ref.update({ badgeId: null }));
 
     const userRecord = await db.collection('users').doc(uid);
     await userRecord.update({ badgeId: id });
