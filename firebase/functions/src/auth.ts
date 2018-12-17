@@ -1,10 +1,12 @@
 import * as admin from 'firebase-admin';
 import { validateUser } from './types';
+import { Firestore } from '@google-cloud/firestore';
 
-export function onUserCreate(db: FirebaseFirestore.Firestore) {
-  return async (userRecord: admin.auth.UserRecord) => {
+export function onUserCreate(db: Firestore) {
+  return async ({uid}: admin.auth.UserRecord) => {
+    const userRecord = await admin.auth().getUser(uid);
     const uUser = {
-      displayName: userRecord.displayName,
+      displayName: userRecord.displayName || `${userRecord.uid}`,
       links: [],
       private: false,
       whitelist: [],

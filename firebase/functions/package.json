@@ -9,6 +9,9 @@
     "logs": "firebase functions:log"
   },
   "main": "lib/index.js",
+  "engines": {
+    "node": "8"
+  },
   "dependencies": {
     "@types/cors": "^2.8.4",
     "body-parser": "^1.18.3",
