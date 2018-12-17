@@ -34,7 +34,7 @@ render(
                 id: match.params.badgeId,
               })
               .then(response =>
-                window.location.replace(`/${response.data.uid}`)
+                window.location.replace(`/u/${response.data.uid}`)
               )
               .catch(console.error);
             return null;

@@ -28,6 +28,7 @@ interface Props {
   session: firebase.User;
 }
 
+
 export default useSession(({ session }: Props) => {
   const [contacts, setContacts] = React.useState<{ [userId: string]: User }>(
     {}
@@ -38,12 +39,15 @@ export default useSession(({ session }: Props) => {
       if (session) {
         functions()
           .httpsCallable('getContacts')()
-          .then(response => setContacts(response.data))
+          .then(response => {
+            return setContacts(response.data.contacts);
+          })
           .catch(console.error);
       }
-    },
-    [contacts]
+    }, [session]
   );
+
+
 
   return (
     <>
@@ -74,8 +78,8 @@ export default useSession(({ session }: Props) => {
           ))}
         </List>
       ) : (
-        <Login text="Please log in to view contacts" />
-      )}
+          <Login text="Please log in to view contacts" />
+        )}
     </>
   );
 });

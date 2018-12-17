@@ -26,12 +26,21 @@ export function getUserByID(db: firestore.Firestore) {
     if (user.private && user.whitelist.indexOf(requestId) === -1)
       throw new functions.https.HttpsError('permission-denied');
 
-    const { displayName, links } = userRecord.data();
+    const { displayName, links } = user;
 
-    const requestContacts = (await db
+    console.log("requestId: ", requestId);
+
+    let requestContacts;
+
+    if (!!requestId) {
+      requestContacts = (await db
       .collection('users')
       .doc(requestId)
       .get()).data().contacts as string[];
+    } else {
+      requestContacts = []
+    }
+    
 
     return {
       displayName,
@@ -107,8 +116,11 @@ export function getContacts(db: firestore.Firestore) {
 
     if (!user.exists) throw new functions.https.HttpsError('data-loss');
 
+    const contactIds = (await user.data()).contacts as string[];
+    const contacts = await contactIds.reduce(async (acc, contactId) => ({...acc, [contactId]: await getUserByID(db)({uid: contactId}, context)}), {})
+
     return {
-      contacts: (await user.data()).contacts,
+      contacts,
     };
   };
 }

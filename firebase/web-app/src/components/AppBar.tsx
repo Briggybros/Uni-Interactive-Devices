@@ -27,7 +27,7 @@ export default ({ title, back, add, onAddClick }: Props) => (
         {title}
       </Typography>
       {add && (
-        <IconButton color="inherit" onClick={onAddClick}>
+        <IconButton color="inherit" onClick={onAddClick} style={{marginLeft: 'auto'}}>
           <Add />
         </IconButton>
       )}
