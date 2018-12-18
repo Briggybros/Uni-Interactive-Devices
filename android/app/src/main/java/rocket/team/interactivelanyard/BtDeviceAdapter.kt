@@ -27,30 +27,8 @@ class BtDeviceAdapter(
     }
 
     fun setItems(newItems: Set<DeviceItem>) {
-//        if (items == null) {
-            items = newItems
-            notifyItemRangeChanged(0, newItems.size)
-//        } else {
-//            val result = DiffUtil.calculateDiff(object : DiffUtil.Callback() {
-//                override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-//                    Log.d("BtDeviceAdapter", "old $oldItemPosition new $newItemPosition")
-//                    return items!!.elementAt(oldItemPosition) == newItems.elementAt(newItemPosition)
-//                }
-//
-//                override fun getOldListSize() = items!!.size
-//
-//                override fun getNewListSize() = newItems.size
-//
-//                override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-//                    Log.d("BtDeviceAdapter", "old $oldItemPosition new $newItemPosition")
-//                    val oldItem = items!!.elementAt(oldItemPosition)
-//                    val newItem = newItems.elementAt(newItemPosition)
-//                    return oldItem == newItem && oldItem.name == newItem.name
-//                }
-//            })
-//            items = newItems
-//            result.dispatchUpdatesTo(this)
-//        }
+        items = newItems
+        notifyDataSetChanged()
     }
 }
 

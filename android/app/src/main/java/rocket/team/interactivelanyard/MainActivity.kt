@@ -12,7 +12,7 @@ import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.ErrorCodes
 import com.firebase.ui.auth.IdpResponse
 import com.google.firebase.auth.FirebaseAuth
-import kotlinx.android.synthetic.main.main_activity2_activity.*
+import kotlinx.android.synthetic.main.main_activity.*
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity() {
                     .build(), RC_SIGN_IN)
         }
 
-        setContentView(R.layout.main_activity2_activity)
+        setContentView(R.layout.main_activity)
         setSupportActionBar(toolbar)
 
         val navController = findNavController(R.id.nav_host_fragment)
@@ -73,7 +73,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun toggleProgressBar() {
+    fun setProgressBar(enable: Boolean) {
         topProgressBar.visibility = if (topProgressBar.visibility == View.VISIBLE) View.INVISIBLE else View.VISIBLE
     }
 }

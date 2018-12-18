@@ -13,15 +13,13 @@ import java.io.OutputStream
 import java.util.*
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
-    private lateinit var bluetoothRepository: BluetoothRepository
+    private val bluetoothRepository = BluetoothRepository(getApplication())
+    val isScanning = bluetoothRepository.isDiscoveringLiveData
     private var btSocket: BluetoothSocket? = null
     private var outStream: OutputStream? = null
+    private var deviceAddress: String? = null
 
     fun getBluetoothDevices(): LiveData<Set<DeviceItem>> {
-
-        if (!::bluetoothRepository.isInitialized) {
-            bluetoothRepository = BluetoothRepository(getApplication())
-        }
         Log.d("MainViewModel", "Getting bluetooth")
         return bluetoothRepository.getBluetoothDevices()
     }
@@ -35,9 +33,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         return device.createRfcommSocketToServiceRecord(MY_UUID)
     }
 
-    fun connectBluetooth(address: String) {
-        // TODO: Store address in a lifecycle resilient state
-        val device = bluetoothRepository.btAdapter.getRemoteDevice(address)
+    fun connectBluetooth(address: String, onConnect: () -> Unit) {
+        deviceAddress = address
+        val device = bluetoothRepository.btAdapter.getRemoteDevice(deviceAddress)
 
         try {
             btSocket = createBluetoothSocket(device)
@@ -54,17 +52,18 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         try {
             btSocket?.connect()
             Log.d(TAG, "Connection ok")
+
+            // Create a data stream so we can talk to server.
+            Log.d(TAG, "Create Socket")
+
+            try {
+                outStream = btSocket?.outputStream
+                onConnect()
+            } catch (e: IOException) {
+                Log.e(TAG, "Output stream creation failed " + e.message)
+            }
         } catch (e: IOException) {
             Log.e(TAG, "Could not connect to socket " + e.message)
-        }
-
-        // Create a data stream so we can talk to server.
-        Log.d(TAG, "Create Socket")
-
-        try {
-            outStream = btSocket?.outputStream
-        } catch (e: IOException) {
-            Log.e(TAG, "Output stream creation failed " + e.message)
         }
     }
 

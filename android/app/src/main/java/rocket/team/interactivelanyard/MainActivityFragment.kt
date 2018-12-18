@@ -11,8 +11,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import rocket.team.interactivelanyard.viewmodel.MainViewModel
+import kotlinx.android.synthetic.main.main_activity_fragment.*
 
 class MainActivityFragment : Fragment() {
 
@@ -28,7 +30,7 @@ class MainActivityFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
-        return inflater.inflate(R.layout.main_activity2_fragment, container, false)
+        return inflater.inflate(R.layout.main_activity_fragment, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -38,12 +40,13 @@ class MainActivityFragment : Fragment() {
         rvAdapter = BtDeviceAdapter(context!!) {
             viewModel.stopBluetoothScanning()
             Toast.makeText(context, "Connecting to ${it.name}", Toast.LENGTH_SHORT).show()
-            viewModel.connectBluetooth(it.address)
+            viewModel.connectBluetooth(it.address) {
+                findNavController().navigate(R.id.action_device_list_to_send_data)
+            }
         }
         btRecyclerView.adapter = rvAdapter
 
         scanButton.setOnClickListener {
-            // TODO: Show spinner or something
             checkBTState()
             viewModel.getBluetoothDevices().observe(this, Observer { items ->
                 Log.d(TAG, "items are $items")
@@ -53,20 +56,9 @@ class MainActivityFragment : Fragment() {
             })
         }
 
-        sendButton.setOnClickListener {
-            val name = nameEditText.text.toString()
-            val deets = deetsEditText.text.toString()
-            val data = "{" +
-                    "\"name\": \"$name\", " +
-                    "\"deets\": \"$deets\"" +
-                    "}"
-            val succ = viewModel.sendData(data)
-            if (succ) {
-                Toast.makeText(context, "Sent data", Toast.LENGTH_SHORT).show()
-            } else {
-                Toast.makeText(context, "Could not send data", Toast.LENGTH_SHORT).show()
-            }
-        }
+        viewModel.isScanning.observe(this, Observer {
+            (activity as MainActivity).setProgressBar(it)
+        })
     }
 
     private fun checkBTState() {

@@ -11,22 +11,24 @@ import androidx.lifecycle.MutableLiveData
 import rocket.team.interactivelanyard.DeviceItem
 
 class BluetoothRepository(private val context: Context) {
-    private lateinit var bluetoothDevicesLiveData: MutableLiveData<Set<DeviceItem>>
+    private val bluetoothDevicesLiveData = MutableLiveData<Set<DeviceItem>>()
     private val bluetoothDevices = mutableSetOf<DeviceItem>()
     val btAdapter: BluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
-    private var isDiscovering = false
-
-    init {
-
-    }
+    val isDiscoveringLiveData = MutableLiveData<Boolean>()
+    var isDiscovering = false
 
     private val bReceiver = object : BroadcastReceiver() {
-        // TODO: handle spinning logic
         override fun onReceive(context: Context, intent: Intent) {
             val action = intent.action
             when (action) {
-                BluetoothAdapter.ACTION_DISCOVERY_STARTED -> isDiscovering = true
-                BluetoothAdapter.ACTION_DISCOVERY_FINISHED -> isDiscovering = false
+                BluetoothAdapter.ACTION_DISCOVERY_STARTED -> {
+                    isDiscovering = true
+                    isDiscoveringLiveData.value = true
+                }
+                BluetoothAdapter.ACTION_DISCOVERY_FINISHED -> {
+                    isDiscovering = false
+                    isDiscoveringLiveData.value = false
+                }
                 BluetoothDevice.ACTION_FOUND -> {
                     val device = intent.getParcelableExtra<BluetoothDevice>(BluetoothDevice.EXTRA_DEVICE)
                     val newDevice = DeviceItem(device.address)
@@ -39,13 +41,9 @@ class BluetoothRepository(private val context: Context) {
     }
 
     fun getBluetoothDevices(): LiveData<Set<DeviceItem>> {
-        if (!::bluetoothDevicesLiveData.isInitialized) {
-            bluetoothDevicesLiveData = MutableLiveData()
-        }
-
         if (!isDiscovering) {
             bluetoothDevices.clear()
-            bluetoothDevicesLiveData.postValue(bluetoothDevices)
+            bluetoothDevicesLiveData.value = bluetoothDevices
             val filter = IntentFilter(BluetoothDevice.ACTION_FOUND)
             filter.addAction(BluetoothAdapter.ACTION_DISCOVERY_STARTED)
             filter.addAction(BluetoothAdapter.ACTION_DISCOVERY_FINISHED)

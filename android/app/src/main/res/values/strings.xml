@@ -8,4 +8,34 @@
     <string name="title_setup">Setup</string>
     <string name="title_contacts">Contacts</string>
     <string name="title_notifications">Settings</string>
+
+    <string-array name="colors">
+        <item>Pink</item>
+        <item>Green</item>
+        <item>White</item>
+        <item>Blue</item>
+        <item>Yellow</item>
+    </string-array>
+
+    <string-array name="emojis">
+        <item>🏒</item>
+        <item>🎮</item>
+        <item>💻</item>
+        <item>🎓</item>
+        <item>🍔</item>
+    </string-array>
+
+    <string-array name="emojis_keys">
+        <item>32</item>
+        <item>cogs</item>
+        <item>css</item>
+        <item>su</item>
+        <item>144</item>
+    </string-array>
+
+    <string-array name="borders">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
 </resources>

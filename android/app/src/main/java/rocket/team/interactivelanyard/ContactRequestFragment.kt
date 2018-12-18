@@ -56,7 +56,7 @@ class ContactRequestFragment : Fragment() {
         })
 
         viewModel.isFetching.observe(this, Observer {
-            (activity as MainActivity).toggleProgressBar()
+            (activity as MainActivity).setProgressBar(it)
         })
     }
 

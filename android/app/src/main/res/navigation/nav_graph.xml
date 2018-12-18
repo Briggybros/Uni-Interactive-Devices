@@ -9,7 +9,11 @@
         android:id="@+id/device_list"
         android:name="rocket.team.interactivelanyard.MainActivityFragment"
         android:label="Home"
-        tools:layout="@layout/main_activity2_fragment" />
+        tools:layout="@layout/main_activity_fragment" >
+        <action
+            android:id="@+id/action_device_list_to_send_data"
+            app:destination="@id/send_data" />
+    </fragment>
     <fragment
         android:id="@+id/navigation_setup"
         android:name="rocket.team.interactivelanyard.AssignBadgeFragment"
@@ -35,4 +39,9 @@
         android:name="rocket.team.interactivelanyard.SettingsFragment"
         android:label="Settings"
         tools:layout="@layout/settings_fragment" />
+    <fragment
+        android:id="@+id/send_data"
+        android:name="rocket.team.interactivelanyard.SendDataFragment"
+        android:label="Send Data"
+        tools:layout="@layout/send_data_fragment" />
 </navigation>

@@ -39,8 +39,7 @@ class AssignBadgeFragment : Fragment() {
         viewModel.isFetching.observe(this, Observer<Boolean> {
             Log.d(TAG, "Is Fetching: $it")
             assignButton.isEnabled = !it
-            Log.d(TAG, "Activity: ${activity.toString()}")
-            (activity as MainActivity).toggleProgressBar()
+            (activity as MainActivity).setProgressBar(it)
         })
 
         viewModel.resultLiveData.observe(this, Observer<String> {
