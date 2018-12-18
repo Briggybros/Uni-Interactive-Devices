@@ -1,90 +1,81 @@
 package rocket.team.interactivelanyard
 
-
-import android.bluetooth.BluetoothAdapter
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.android.synthetic.main.activity_main.*
-import rocket.team.interactivelanyard.viewmodel.MainViewModel
-
+import androidx.navigation.findNavController
+import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
+import com.firebase.ui.auth.AuthUI
+import com.firebase.ui.auth.ErrorCodes
+import com.firebase.ui.auth.IdpResponse
+import com.google.firebase.auth.FirebaseAuth
+import kotlinx.android.synthetic.main.main_activity2_activity.*
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
-
-    private lateinit var rvAdapter: BtDeviceAdapter
-    private val viewModel: MainViewModel by lazy {
-        ViewModelProviders.of(this).get(MainViewModel::class.java)
+    companion object {
+        private const val TAG = "MainActivity"
+        private val RC_SIGN_IN = 1234
     }
 
-    /** Called when the activity is first created.  */
-    public override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        val auth = FirebaseAuth.getInstance()
 
-        checkBTState()
-
-        btRecyclerView.layoutManager = LinearLayoutManager(this)
-        rvAdapter = BtDeviceAdapter(this) {
-            viewModel.stopBluetoothScanning()
-            Toast.makeText(this, "Connecting to ${it.name}", Toast.LENGTH_SHORT).show()
-            viewModel.connectBluetooth(it.address)
-        }
-        btRecyclerView.adapter = rvAdapter
-
-        scanButton.setOnClickListener {
-            // TODO: Show spinner or something
-            viewModel.getBluetoothDevices().observe(this, Observer<Set<DeviceItem>> {items ->
-                Log.d(TAG, "items are $items")
-                if (items.isNotEmpty()) {
-                    rvAdapter.setItems(items)
-                }
-            })
+        if (auth.currentUser != null) {
+            Log.d(TAG, "There is a user logged in")
+        } else {
+            startActivityForResult(AuthUI.getInstance()
+                    .createSignInIntentBuilder()
+                    .setIsSmartLockEnabled(false)
+                    .setAvailableProviders(Arrays.asList(
+                            AuthUI.IdpConfig.GoogleBuilder().build(),
+                            AuthUI.IdpConfig.FacebookBuilder().build(),
+                            AuthUI.IdpConfig.EmailBuilder().build()
+                    ))
+                    .setTheme(R.style.LoginTheme)
+                    .build(), RC_SIGN_IN)
         }
 
-        sendButton.setOnClickListener {
-            val name = nameEditText.text.toString()
-            val deets = deetsEditText.text.toString()
-            val data = "{" +
-                    "\"name\": \"$name\", " +
-                    "\"deets\": \"$deets\"" +
-                "}"
-            val succ = viewModel.sendData(data)
-            if (succ) {
-                Toast.makeText(baseContext, "Sent data", Toast.LENGTH_SHORT).show()
+        setContentView(R.layout.main_activity2_activity)
+        setSupportActionBar(toolbar)
+
+        val navController = findNavController(R.id.nav_host_fragment)
+        setupActionBarWithNavController(navController)
+        navigation.setupWithNavController(navController)
+    }
+
+    override fun onSupportNavigateUp(): Boolean = findNavController(R.id.nav_host_fragment).navigateUp()
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == RC_SIGN_IN) {
+            val response = IdpResponse.fromResultIntent(data)
+
+            // Successfully signed in
+            if (resultCode == RESULT_OK) {
             } else {
-                Toast.makeText(baseContext, "Could not send data", Toast.LENGTH_SHORT).show()
+                // Sign in failed
+                if (response == null) {
+                    // User pressed back button
+                    return
+                }
+
+                if (response.error!!.errorCode == ErrorCodes.NO_NETWORK) {
+                    return
+                }
+
+                Log.e("LaunchActivity", "Sign-in error: ${response.error}")
             }
         }
     }
 
-    public override fun onResume() {
-        super.onResume()
-    }
-
-    public override fun onPause() {
-        super.onPause()
-
-        Log.d(TAG, "In onPause()")
-    }
-
-    private fun checkBTState() {
-        // Check for Bluetooth support and then check to make sure it is turned on
-        // Emulator doesn't support Bluetooth and will return null
-        if (BluetoothAdapter.getDefaultAdapter().isEnabled) {
-            Log.d("BluetoothRepository", "Bluetooth ON")
-        } else {
-            //Prompt user to turn on Bluetooth
-            val enableBtIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
-            startActivityForResult(enableBtIntent, 1)
-        }
-    }
-
-    companion object {
-        private const val TAG = "bluetooth1"
+    fun toggleProgressBar() {
+        topProgressBar.visibility = if (topProgressBar.visibility == View.VISIBLE) View.INVISIBLE else View.VISIBLE
     }
 }
+
+
