@@ -20,8 +20,8 @@ Adafruit_ILI9341 tft = Adafruit_ILI9341(TFT_CS, TFT_DC);
 #define FRAME_H 50
 
 
-#define BG_COL tft.color565(255,240,168)
-#define TXT_COL tft.color565(254,130,140)
+#define BG_COL tft.color565(254,130,140)
+#define TXT_COL tft.color565(255,240,168)
 
 SoftwareSerial mySerial(3, 2); // RX, TX
 
@@ -31,18 +31,18 @@ DynamicJsonBuffer jsonBuffer(200);
 void clearScreen() {
   tft.fillScreen(BG_COL);
   //bg 1 - 3
-  const char *filename = "bg/bg3.bmp";
+  const char *filename = "bg/bg2.bmp";
   //emojis 0 - 195, css, su, cogs, johns
-  const char *file2 = "be/194.bmp";
-  bmpDraw(filename, (tft.height() / 2) + (-1 * 120), (tft.width()  / 2) + (-1 * 160));
+  const char *file2 = "be/32.bmp";
+//  bmpDraw(filename, (tft.height() / 2) + (-1 * 120), (tft.width()  / 2) + (-1 * 160));
   bmpDraw(file2, (tft.height()/2) + (-1 * 50), (tft.width() / 2)+ (-1 * 130)); 
 }
 
-void drawText(const char *text, int y) {
-  int x = (tft.width() / 2) - strlen(text)*3* 3;
+void drawText(const char *text, int y, int fontsize) {
+  int x = (tft.width() / 2) - strlen(text)*3* fontsize;
   tft.setCursor(x , y);
   tft.setTextColor(TXT_COL);
-  tft.setTextSize(3);
+  tft.setTextSize(fontsize);
   //tft.println(text);
   while(*text){
     tft.write(*text++);
@@ -262,8 +262,8 @@ void setup() {
 
   tft.setRotation(3);
   clearScreen();
-  drawText("Henlo Lizer", tft.height() / 2);
-  drawText("Meye Deets ser", tft.height() / 2 + 28);
+  drawText("Ben Norris", tft.height() / 2, 3);
+  drawText("Ice Hockey Society", tft.height() / 2 + 28, 2);
 }
 
 void loop() {
@@ -278,8 +278,8 @@ void loop() {
       const char *name = root["name"];
       const char *deets = root["deets"];
       clearScreen();
-      drawText(name, tft.height() / 2);
-      drawText(name, tft.height() / 2 + 28);
+      drawText(name, tft.height() / 2, 3);
+      drawText(deets, tft.height() / 2 + 28, 2);
     }
   }
 }
