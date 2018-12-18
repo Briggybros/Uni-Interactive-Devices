@@ -10,9 +10,9 @@
     <string name="title_notifications">Settings</string>
 
     <string-array name="colors">
+        <item>White</item>
         <item>Pink</item>
         <item>Green</item>
-        <item>White</item>
         <item>Blue</item>
         <item>Yellow</item>
     </string-array>

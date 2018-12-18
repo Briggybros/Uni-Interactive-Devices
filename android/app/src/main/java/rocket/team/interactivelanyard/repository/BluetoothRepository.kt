@@ -11,7 +11,7 @@ import androidx.lifecycle.MutableLiveData
 import rocket.team.interactivelanyard.DeviceItem
 
 class BluetoothRepository(private val context: Context) {
-    private val bluetoothDevicesLiveData = MutableLiveData<Set<DeviceItem>>()
+    val bluetoothDevicesLiveData = MutableLiveData<Set<DeviceItem>>()
     private val bluetoothDevices = mutableSetOf<DeviceItem>()
     val btAdapter: BluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
     val isDiscoveringLiveData = MutableLiveData<Boolean>()
