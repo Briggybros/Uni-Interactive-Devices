@@ -141,10 +141,9 @@ export function addContact(db: firestore.Firestore) {
       throw new functions.https.HttpsError('data-loss');
 
     const newContacts = [
-      ...((await userRecord.get()).data().contacts as string[]).filter(c => c !== contactId),
+      ...(((await userRecord.get()).data().contacts as string[]).filter(c => c !== contactId)),
       contactId,
     ];
-
 
     await userRecord.update({ contacts: newContacts });
 
