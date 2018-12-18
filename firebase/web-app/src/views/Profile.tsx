@@ -63,7 +63,7 @@ export default useSession((props: Props) => {
           user.links.map(link => (
             <ListItem
               key={link.link}
-              component={(props: any) => <a href={link.link} {...props} />}
+              component={(props: any) => <a href={link.link} target="_blank" {...props} />}
             >
               <SocialIcon type={link.name} />
               <ListItemText primary={`Connect with: ${link.name}`} />
