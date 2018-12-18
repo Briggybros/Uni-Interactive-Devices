@@ -3,6 +3,7 @@ import { render } from 'react-dom';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { initializeApp, functions } from 'firebase';
 import 'firebase/functions';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 
 import { SessionProvider } from './providers/Session';
 import ContactsList from './views/ContactsList';
@@ -18,30 +19,49 @@ initializeApp({
 });
 functions();
 
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      light: '#f9683a',
+      main: '#bf360c',
+      dark: '#870000',
+      contrastText: '#fff',
+    },
+    secondary: {
+      light: '#8d8d8d',
+      main: '#606060',
+      dark: '#363636',
+      contrastText: '#fff',
+    }
+  }
+});
+
 const mount = document.getElementById('app');
 
 render(
-  <SessionProvider>
-    <Router>
-      <Switch>
-        <Route exact path="/" component={ContactsList} />
-        <Route path="/u/:userId" component={Profile} />
-        <Route
-          path="/b/:badgeId"
-          render={({ match }) => {
-            functions()
-              .httpsCallable('getUserByBadgeID')({
-                id: match.params.badgeId,
-              })
-              .then(response =>
-                window.location.replace(`/u/${response.data.uid}`)
-              )
-              .catch(console.error);
-            return null;
-          }}
-        />
-      </Switch>
-    </Router>
-  </SessionProvider>,
+  <MuiThemeProvider theme={theme}>
+    <SessionProvider>
+      <Router>
+        <Switch>
+          <Route exact path="/" component={ContactsList} />
+          <Route path="/u/:userId" component={Profile} />
+          <Route
+            path="/b/:badgeId"
+            render={({ match }) => {
+              functions()
+                .httpsCallable('getUserByBadgeID')({
+                  id: match.params.badgeId,
+                })
+                .then(response =>
+                  window.location.replace(`/u/${response.data.uid}`)
+                )
+                .catch(console.error);
+              return null;
+            }}
+          />
+        </Switch>
+      </Router>
+    </SessionProvider></MuiThemeProvider>
+  ,
   mount
 );
