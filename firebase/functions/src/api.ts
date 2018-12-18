@@ -1,10 +1,16 @@
 import { firestore } from 'firebase-admin';
 import * as functions from 'firebase-functions';
 
-import { User } from './types';
+import { User, Link } from './types';
+
+interface MinUser {
+  displayName: string;
+  links: Link[];
+  isContact: boolean;
+}
 
 export function getUserByID(db: firestore.Firestore) {
-  return async (data: any, context: functions.https.CallableContext) => {
+  return async (data: any, context: functions.https.CallableContext): Promise<MinUser> => {
     const requestId = context.auth ? context.auth.uid : null;
     const { uid } = data;
 
@@ -102,6 +108,16 @@ export function assignBadgeID(db: firestore.Firestore) {
   };
 }
 
+function zip<A, B, C>(array1: A[], array2: B[], f: (a: A, b: B) => C): C[] {
+  if (array1.length !== array2.length) throw new Error('Failed to zip arrays of different length');
+
+  return array1.map((e, i) => f(e, array2[i]));
+}
+
+function objectFromEntries(entryArray: [string, any][]): Object {
+  return entryArray.reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {})
+}
+
 export function getContacts(db: firestore.Firestore) {
   return async (_: any, context: functions.https.CallableContext) => {
     const uid = context.auth ? context.auth.uid : null;
@@ -116,10 +132,14 @@ export function getContacts(db: firestore.Firestore) {
     if (!user.exists) throw new functions.https.HttpsError('data-loss');
 
     const contactIds = (await user.data()).contacts as string[];
-    const contacts = await contactIds.reduce(async (acc, contactId) => ({ ...acc, [contactId]: await getUserByID(db)({ uid: contactId }, context) }), {})
+
+    const contacts = await Promise.all(contactIds.map(cid => getUserByID(db)({ uid: cid }, context)));
+
+    const entries = zip<string, MinUser, [string, MinUser]>(contactIds, contacts, (id, c) => [id, c]);
+    const result = objectFromEntries(entries);
 
     return {
-      contacts,
+      contacts: result,
     };
   };
 }
