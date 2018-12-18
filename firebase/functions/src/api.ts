@@ -28,19 +28,17 @@ export function getUserByID(db: firestore.Firestore) {
 
     const { displayName, links } = user;
 
-    console.log("requestId: ", requestId);
-
     let requestContacts;
 
     if (!!requestId) {
       requestContacts = (await db
-      .collection('users')
-      .doc(requestId)
-      .get()).data().contacts as string[];
+        .collection('users')
+        .doc(requestId)
+        .get()).data().contacts as string[];
     } else {
       requestContacts = []
     }
-    
+
 
     return {
       displayName,
@@ -117,7 +115,7 @@ export function getContacts(db: firestore.Firestore) {
     if (!user.exists) throw new functions.https.HttpsError('data-loss');
 
     const contactIds = (await user.data()).contacts as string[];
-    const contacts = await contactIds.reduce(async (acc, contactId) => ({...acc, [contactId]: await getUserByID(db)({uid: contactId}, context)}), {})
+    const contacts = await contactIds.reduce(async (acc, contactId) => ({ ...acc, [contactId]: await getUserByID(db)({ uid: contactId }, context) }), {})
 
     return {
       contacts,
@@ -143,9 +141,10 @@ export function addContact(db: firestore.Firestore) {
       throw new functions.https.HttpsError('data-loss');
 
     const newContacts = [
-      ...((await userRecord.get()).data().contacts as string[]),
+      ...((await userRecord.get()).data().contacts as string[]).filter(c => c !== contactId),
       contactId,
     ];
+
 
     await userRecord.update({ contacts: newContacts });
 
