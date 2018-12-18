@@ -79,10 +79,11 @@ export function getUserByBadgeID(db: firestore.Firestore) {
 export function assignBadgeID(db: firestore.Firestore) {
   return async (data: any, context: functions.https.CallableContext) => {
     const uid = context.auth ? context.auth.uid : null;
-    const { id } = data;
+    const { id }: { id: string } = data;
+    const badgeId = id.toUpperCase();
 
     if (!uid) throw new functions.https.HttpsError('unauthenticated');
-    if (!id)
+    if (!badgeId)
       throw new functions.https.HttpsError(
         'invalid-argument',
         'Id not provided'
@@ -90,13 +91,13 @@ export function assignBadgeID(db: firestore.Firestore) {
 
     const records = await db
       .collection('users')
-      .where('badgeId', '==', id)
+      .where('badgeId', '==', badgeId)
       .get();
 
     records.forEach(record => record.ref.update({ badgeId: null }));
 
     const userRecord = await db.collection('users').doc(uid);
-    await userRecord.update({ badgeId: id });
+    await userRecord.update({ badgeId: badgeId });
     return { badgeId: (await userRecord.get()).data().badgeId };
   };
 }
