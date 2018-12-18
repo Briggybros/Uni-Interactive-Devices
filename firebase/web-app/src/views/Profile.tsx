@@ -36,8 +36,12 @@ export default useSession((props: Props) => {
             console.error(error);
           }
         });
+
+      if (!!props.session) {
+        functions().httpsCallable('addContact')({ contactId: userId });
+      }
     },
-    [userId]
+    [userId, props.session]
   );
 
   if (user === null) return <span>Loading...</span>;

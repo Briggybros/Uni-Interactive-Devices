@@ -136,18 +136,20 @@ export function addContact(db: firestore.Firestore) {
         'contactId not provided'
       );
 
+
     const userRecord = db.collection('users').doc(uid);
 
-    if (!(await userRecord.get()).exists)
-      throw new functions.https.HttpsError('data-loss');
+    if (uid !== contactId) {
+      if (!(await userRecord.get()).exists)
+        throw new functions.https.HttpsError('data-loss');
 
-    const newContacts = [
-      ...(((await userRecord.get()).data().contacts as string[]).filter(c => c !== contactId)),
-      contactId,
-    ];
+      const newContacts = [
+        ...(((await userRecord.get()).data().contacts as string[]).filter(c => c !== contactId)),
+        contactId,
+      ];
 
-    await userRecord.update({ contacts: newContacts });
-
+      await userRecord.update({ contacts: newContacts });
+    }
     return {
       contacts: (await userRecord.get()).data().contacts,
     };

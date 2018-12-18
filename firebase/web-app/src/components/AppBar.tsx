@@ -7,11 +7,9 @@ import { ArrowBack, Add } from '@material-ui/icons';
 interface Props {
   title: string;
   back?: boolean;
-  add?: boolean;
-  onAddClick?: () => any;
 }
 
-export default ({ title, back, add, onAddClick }: Props) => (
+export default ({ title, back }: Props) => (
   <AppBar position="static">
     <Toolbar>
       {back && (
@@ -26,11 +24,6 @@ export default ({ title, back, add, onAddClick }: Props) => (
       <Typography variant="h6" color="inherit">
         {title}
       </Typography>
-      {add && (
-        <IconButton color="inherit" onClick={onAddClick} style={{marginLeft: 'auto'}}>
-          <Add />
-        </IconButton>
-      )}
     </Toolbar>
   </AppBar>
 );
