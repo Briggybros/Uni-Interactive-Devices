@@ -19,21 +19,34 @@ Adafruit_ILI9341 tft = Adafruit_ILI9341(TFT_CS, TFT_DC);
 #define FRAME_W 100
 #define FRAME_H 50
 
+
+#define BG_COL tft.color565(255,240,168)
+#define TXT_COL tft.color565(254,130,140)
+
 SoftwareSerial mySerial(3, 2); // RX, TX
 
 String inputString = "";
 DynamicJsonBuffer jsonBuffer(200);
 
 void clearScreen() {
-//  tft.fillScreen(ILI9341_BLACK);
-  bmpDraw("/wildlife/1.bmp", (tft.height() / 2) + (-1 * 120), (tft.width()  / 2) + (-1 * 160));
+  tft.fillScreen(BG_COL);
+  //bg 1 - 3
+  const char *filename = "bg/bg3.bmp";
+  //emojis 0 - 195, css, su, cogs, johns
+  const char *file2 = "be/194.bmp";
+  bmpDraw(filename, (tft.height() / 2) + (-1 * 120), (tft.width()  / 2) + (-1 * 160));
+  bmpDraw(file2, (tft.height()/2) + (-1 * 50), (tft.width() / 2)+ (-1 * 130)); 
 }
 
-void drawText(String text) {
-  tft.setCursor(0 , tft.height() / 2);
-  tft.setTextColor(ILI9341_GREEN);
+void drawText(const char *text, int y) {
+  int x = (tft.width() / 2) - strlen(text)*3* 3;
+  tft.setCursor(x , y);
+  tft.setTextColor(TXT_COL);
   tft.setTextSize(3);
-  tft.println(text);
+  //tft.println(text);
+  while(*text){
+    tft.write(*text++);
+  }
 }
 
 
@@ -47,7 +60,7 @@ void drawText(String text) {
 
 #define BUFFPIXEL 20
 
-void bmpDraw(char *filename, int16_t x, int16_t y) {
+void bmpDraw(const char *filename, int16_t x, int16_t y) {
 
   File     bmpFile;
   int      bmpWidth, bmpHeight;   // W+H in pixels
@@ -161,7 +174,15 @@ void bmpDraw(char *filename, int16_t x, int16_t y) {
               b = sdbuffer[buffidx++];
               g = sdbuffer[buffidx++];
               r = sdbuffer[buffidx++];
-              tft.writePixel(tft.color565(r,g,b));
+              //Serial.print(b);
+              //Serial.print(g);
+              //Serial.print(r);
+              //Serial.println();
+              if ((b == 254) && (g == 255) && (r == 196)){
+                tft.writePixel(BG_COL);
+              }else{
+                tft.writePixel(tft.color565(r,g,b));
+              }
             } // end pixel
           } // end scanline
           tft.endWrite(); // End last TFT transaction
@@ -224,22 +245,25 @@ void printDirectory(File dir, int numTabs) {
 void setup() {
   Serial.begin(9600);
   mySerial.begin(9600);
-  tft.begin();
 
-  yield();
-
-  Serial.print("Initializing SD card...");
-  if (!SD.begin(SD_CS)) {
-    Serial.println("failed!");
-  } else {
-    Serial.println("OK");
+  bool sd = false;
+  while(!sd){
+    tft.begin();
+    yield();
+    Serial.print("Initializing SD card...");
+    if (!SD.begin(SD_CS)) {
+      Serial.println("failed!");
+    } else {
+      sd = true;
+      Serial.println("OK");
+    }
   }
-  
   Serial.println("Hello world");
 
   tft.setRotation(3);
   clearScreen();
-  drawText("Henlo Lizer");
+  drawText("Henlo Lizer", tft.height() / 2);
+  drawText("Meye Deets ser", tft.height() / 2 + 28);
 }
 
 void loop() {
@@ -251,9 +275,11 @@ void loop() {
     if (!root.success()) {
       Serial.println("Parsing failed :(");
     } else {
-      const String name = root["name"];
+      const char *name = root["name"];
+      const char *deets = root["deets"];
       clearScreen();
-      drawText(name);
+      drawText(name, tft.height() / 2);
+      drawText(name, tft.height() / 2 + 28);
     }
   }
 }
