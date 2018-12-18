@@ -57,17 +57,13 @@ export default useSession((props: Props) => {
       <AppBar
         title={user.displayName}
         back
-        add={!!props.session && userId !== props.session.uid && !user.isContact}
-        onAddClick={() => {
-          functions().httpsCallable('addContact')({ contactId: userId });
-        }}
       />
       <List>
         {user.links &&
           user.links.map(link => (
             <ListItem
-              key={link.url}
-              component={(props: any) => <a href={link.url} {...props} />}
+              key={link.link}
+              component={(props: any) => <a href={link.link} {...props} />}
             >
               <SocialIcon type={link.name} />
               <ListItemText primary={`Connect with: ${link.name}`} />

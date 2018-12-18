@@ -96,7 +96,7 @@ export default function api(db: FirebaseFirestore.Firestore) {
 
   api.post('/users/:id/links', async (req, res) => {
     const { id } = req.params;
-    const { name, url } = validateLink(req.body);
+    const { name, link } = validateLink(req.body);
 
     try {
       const userRecord = db.collection('users').doc(id);
@@ -113,7 +113,7 @@ export default function api(db: FirebaseFirestore.Firestore) {
 
       const newLinks = [
         ...(await userRecord.get()).data().links,
-        { name, url },
+        { name, link, visible: true },
       ];
 
       await userRecord.update({ links: newLinks });

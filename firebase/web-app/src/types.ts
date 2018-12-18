@@ -1,6 +1,6 @@
 export interface Link {
   name: string;
-  url: string;
+  link: string;
   visible: boolean;
 }
 
@@ -37,7 +37,6 @@ export function validateUser(user: any): User | null {
     !!user.links &&
     Array.isArray(user.links) &&
     (user.links as any[]).every(link => !!validateLink(link)) &&
-    !!user.private &&
     typeof user.private === 'boolean' &&
     !!user.whitelist &&
     Array.isArray(user.whitelist) &&
