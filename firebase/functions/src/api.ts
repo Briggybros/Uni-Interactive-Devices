@@ -2,6 +2,7 @@ import { firestore } from 'firebase-admin';
 import * as functions from 'firebase-functions';
 
 import { User, Link } from './types';
+import { DocumentSnapshot } from '@google-cloud/firestore';
 
 interface MinUser {
   displayName: string;
@@ -100,7 +101,8 @@ export function assignBadgeID(db: firestore.Firestore) {
       .where('badgeId', '==', badgeId)
       .get();
 
-    records.forEach(record => record.ref.update({ badgeId: null }));
+    // @ts-ignore
+    await Promise.all((records.docs).map(r => r.ref.update({ badgeId: null })));
 
     const userRecord = await db.collection('users').doc(uid);
     await userRecord.update({ badgeId: badgeId });
