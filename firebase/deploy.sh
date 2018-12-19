@@ -1,0 +1,1 @@
+npm run build:prod --prefix ./web-app/ && firebase deploy

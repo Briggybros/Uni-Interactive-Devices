@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "lib": ["es2017", "dom"],
+    "declaration": true,
+    "rootDir": "../",
+
+    "strict": true,
+    "jsx": "react",
+
+    "moduleResolution": "node",
+    "baseUrl": "./src",
+    "esModuleInterop": true
+  },
+  "include": ["./src"]
+}
