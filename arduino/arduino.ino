@@ -3,11 +3,9 @@
 */
 #include <Adafruit_GFX.h>
 #include <Adafruit_ILI9341.h>
-#include <SoftwareSerial.h>
 #include <ArduinoJson.h>
 #include <SPI.h>
 #include <SD.h>
-#include <SoftwareSerial.h>
 
 #define TFT_DC 9
 #define TFT_CS 10
@@ -15,13 +13,8 @@ Adafruit_ILI9341 tft = Adafruit_ILI9341(TFT_CS, TFT_DC);
 
 #define SD_CS 4
 
-#define FRAME_X 210
-#define FRAME_Y 180
-#define FRAME_W 100
-#define FRAME_H 50
-
-#define ID "ALFA" //Change per duino
-#define BAUDRATE 38400 //^^
+#define ID "BETA" //Change per duino
+#define BAUDRATE 9600 //^^
 
 int bg_colr = 254;
 int bg_colg = 130;
@@ -33,9 +26,8 @@ int txt_colb = 168;
 char *fname = "1";
 char *fname2 = "1";
 
-SoftwareSerial mySerial(3, 2); // RX, TX
 String inputString = "";
-DynamicJsonBuffer jsonBuffer(200);
+DynamicJsonBuffer jsonBuffer(100);
 
 // These read 16- and 32-bit types from the SD card file.
 // BMP data is stored little-endian, Arduino is little-endian too.
@@ -57,46 +49,43 @@ uint32_t read32(File &f) {
   return result;
 }
 
-void printDirectory(File dir, int numTabs) {
-  while (true) {
-
-    File entry =  dir.openNextFile();
-    if (! entry) {
-      // no more files
-      break;
-    }
-    for (uint8_t i = 0; i < numTabs; i++) {
-      Serial.print('\t');
-    }
-    Serial.print(entry.name());
-    if (entry.isDirectory()) {
-      Serial.println("/");
-      printDirectory(entry, numTabs + 1);
-    } else {
-      // files have sizes, directories do not
-      Serial.print("\t\t");
-      Serial.println(entry.size(), DEC);
-    }
-    entry.close();
-  }
-}
+//void printDirectory(File dir, int numTabs) {
+//  while (true) {
+//
+//    File entry =  dir.openNextFile();
+//    if (! entry) {
+//      // no more files
+//      break;
+//    }
+//    for (uint8_t i = 0; i < numTabs; i++) {
+//      Serial.print('\t');
+//    }
+//    Serial.print(entry.name());
+//    if (entry.isDirectory()) {
+//      Serial.println("/");
+//      printDirectory(entry, numTabs + 1);
+//    } else {
+//      // files have sizes, directories do not
+//      Serial.print("\t\t");
+//      Serial.println(entry.size(), DEC);
+//    }
+//    entry.close();
+//  }
+//}
 
 void clearScreen() {
   bool sd = false;
   while(!sd){
     tft.begin();
     yield();
-    Serial.print("Initializing SD card...");
     if (!SD.begin(SD_CS)) {
-      Serial.println("failed!");
     } else {
       sd = true;
-      Serial.println("OK");
     }
   }
   
   tft.setRotation(3);
-  printDirectory(SD.open('/'),1);
+//  printDirectory(SD.open('/'),1);
   tft.fillScreen(tft.color565(bg_colr,bg_colg,bg_colb));
   //bg 1 - 3
   char holding[20];
@@ -114,24 +103,24 @@ void clearScreen() {
   bmpDraw(file2, (tft.height()/2) + (-1 * 50), (tft.width() / 2)+ (-1 * 130)); 
 }
 
-void textToCol(const char* text, int a, int b, int c){
+void textToCol(const char* text, int &a, int &b, int &c){
   //int col[3];
-  if (strcmp(text,"PINK")){
+  if (strcmp(text,"PINK") == 0){
      a = 254;
      b = 130;
      c = 140;
   }else{
-    if (strcmp(text,"GREEN")){
+    if (strcmp(text,"GREEN") == 0){
       a = 193;
       b = 255;
       c = 223;
     }else{
-      if(strcmp(text,"BLUE")){
+      if(strcmp(text,"BLUE") == 0){
          a = 214;
          b = 228;
          c = 255;
       }else{
-        if(strcmp(text,"YELLOW")){
+        if(strcmp(text,"YELLOW") == 0){
           a = 255;
           b = 251;
           c = 219;
@@ -191,37 +180,23 @@ void bmpDraw(const char *filename, int16_t x, int16_t y) {
 
   if((x >= tft.width()) || (y >= tft.height())) return;
 
-  Serial.println();
-  Serial.print(F("Loading image '"));
-  Serial.print(filename);
-  Serial.println('\'');
-
   // Open requested file on SD card
   if ((bmpFile = SD.open(filename)) == NULL) {
-    Serial.print(F("File not found"));
     return;
   }
 
   // Parse BMP header
   if(read16(bmpFile) == 0x4D42) { // BMP signature
-    Serial.print(F("File size: ")); Serial.println(read32(bmpFile));
     (void)read32(bmpFile); // Read & ignore creator bytes
     bmpImageoffset = read32(bmpFile); // Start of image data
-    Serial.print(F("Image Offset: ")); Serial.println(bmpImageoffset, DEC);
     // Read DIB header
-    Serial.print(F("Header size: ")); Serial.println(read32(bmpFile));
     bmpWidth  = read32(bmpFile);
     bmpHeight = read32(bmpFile);
     if(read16(bmpFile) == 1) { // # planes -- must be '1'
       bmpDepth = read16(bmpFile); // bits per pixel
-      Serial.print(F("Bit Depth: ")); Serial.println(bmpDepth);
       if((bmpDepth == 24) && (read32(bmpFile) == 0)) { // 0 = uncompressed
 
         goodBmp = true; // Supported BMP format -- proceed!
-        Serial.print(F("Image size: "));
-        Serial.print(bmpWidth);
-        Serial.print('x');
-        Serial.println(bmpHeight);
 
         // BMP rows are padded (if needed) to 4-byte boundary
         rowSize = (bmpWidth * 3 + 3) & ~3;
@@ -301,33 +276,24 @@ void bmpDraw(const char *filename, int16_t x, int16_t y) {
           } // end scanline
           tft.endWrite(); // End last TFT transaction
         } // end onscreen
-        Serial.print(F("Loaded in "));
-        Serial.print(millis() - startTime);
-        Serial.println(" ms");
       } // end goodBmp
     }
   }
 
   bmpFile.close();
-  if(!goodBmp) Serial.println(F("BMP format not recognized."));
 }
 void setup() {
   Serial.begin(BAUDRATE);
-  mySerial.begin(BAUDRATE);
 
   bool sd = false;
   while(!sd){
     tft.begin();
     yield();
-    Serial.print("Initializing SD card...");
     if (!SD.begin(SD_CS)) {
-      Serial.println("failed!");
     } else {
       sd = true;
-      Serial.println("OK");
     }
   }
-  Serial.println("Hello world");
   tft.setRotation(3);
   tft.fillScreen(tft.color565(0,0,0));
   //clearScreen();
@@ -335,48 +301,36 @@ void setup() {
   drawText("Badge ID", tft.height() / 2 + 28, 2, true);
 }
 
+const char *name;
+const char *deets;
+const char *txtCol;
+const char *bgCol;
+const char *emj;
+const char *border;
+
 void loop() {
-  if (mySerial.available()) {
-    Serial.println("REEEEADING");
-    inputString = mySerial.readString(); //read the input
-    Serial.println(inputString);
+  if (Serial.available()) {
+    inputString = Serial.readString(); //read the input
     JsonObject& root = jsonBuffer.parseObject(inputString);
 
-    if (!root.success()) {
-      Serial.println("Parsing failed :(");
-    } else {
-      const char *name = root["name"];
-      const char *deets = root["deets"];
-      const char *txtCol = root["textColor"];
-      const char *bgCol = root["backgroundColor"];
-      const char *emj = root["emoji"];
-      const char *border = root["border"];
-      Serial.print(name);
-      Serial.println();
-      Serial.print(deets);
-      Serial.println();
-      Serial.print(txtCol);
-      Serial.println();
-      Serial.print(bgCol);
-      Serial.println();
-      Serial.print(emj);
-      Serial.println();
-      Serial.print(border);
-      Serial.println();
-//      
+    
+    if (root.success()) {
+      name = root["name"];
+      deets = root["deets"];
+      txtCol = root["textColor"];
+      bgCol = root["backgroundColor"];
+      emj = root["emoji"];
+      border = root["border"];
+   
       fname = border;
       fname2 = emj;
       textToCol(bgCol,bg_colr, bg_colg, bg_colb);
-      Serial.print(bg_colr);
-      Serial.print(bg_colg);
-      Serial.print(bg_colb);
       textToCol(txtCol,txt_colr, txt_colg, txt_colb);
-      Serial.print(txt_colr);
-      Serial.print(txt_colg);
-      Serial.print(txt_colb);
       clearScreen();
       drawText(name, tft.height() / 2, 3);
       drawText(deets, tft.height() / 2 + 28, 2);
+      
+      jsonBuffer.clear();
     }
   }
 }
