@@ -21,7 +21,7 @@ Adafruit_ILI9341 tft = Adafruit_ILI9341(TFT_CS, TFT_DC);
 #define FRAME_H 50
 
 #define ID "ALFA" //Change per duino
-#define BAUDRATE 9600 //^^
+#define BAUDRATE 38400 //^^
 
 int bg_colr = 254;
 int bg_colg = 130;
@@ -82,6 +82,21 @@ void printDirectory(File dir, int numTabs) {
 }
 
 void clearScreen() {
+  bool sd = false;
+  while(!sd){
+    tft.begin();
+    yield();
+    Serial.print("Initializing SD card...");
+    if (!SD.begin(SD_CS)) {
+      Serial.println("failed!");
+    } else {
+      sd = true;
+      Serial.println("OK");
+    }
+  }
+  
+  tft.setRotation(3);
+  printDirectory(SD.open('/'),1);
   tft.fillScreen(tft.color565(bg_colr,bg_colg,bg_colb));
   //bg 1 - 3
   char holding[20];
@@ -99,36 +114,36 @@ void clearScreen() {
   bmpDraw(file2, (tft.height()/2) + (-1 * 50), (tft.width() / 2)+ (-1 * 130)); 
 }
 
-int *textToCol(const char* text){
-  int col[3];
+void textToCol(const char* text, int a, int b, int c){
+  //int col[3];
   if (strcmp(text,"PINK")){
-     col[0] = 254;
-     col[1] = 130;
-     col[2] = 140;
+     a = 254;
+     b = 130;
+     c = 140;
   }else{
     if (strcmp(text,"GREEN")){
-      col[0] = 193;
-      col[1] = 255;
-      col[2] = 223;
+      a = 193;
+      b = 255;
+      c = 223;
     }else{
       if(strcmp(text,"BLUE")){
-         col[0] = 214;
-         col[1] = 228;
-         col[2] = 255;
+         a = 214;
+         b = 228;
+         c = 255;
       }else{
         if(strcmp(text,"YELLOW")){
-          col[0] = 255;
-          col[1] = 251;
-          col[2] = 219;
+          a = 255;
+          b = 251;
+          c = 219;
         }else{
-          col[0] = 255;
-          col[1] = 255;
-          col[2] = 255;
+          a = 255;
+          b = 255;
+          c = 255;
         }
       }
     }
   }
-  return col;
+  //return col;
 
 }
 
@@ -313,7 +328,6 @@ void setup() {
     }
   }
   Serial.println("Hello world");
-
   tft.setRotation(3);
   tft.fillScreen(tft.color565(0,0,0));
   //clearScreen();
@@ -337,23 +351,29 @@ void loop() {
       const char *bgCol = root["backgroundColor"];
       const char *emj = root["emoji"];
       const char *border = root["border"];
-//      Serial.print(name);
-//      Serial.println();
-//      Serial.print(deets);
-//      Serial.println();
-//      Serial.print(txtCol);
-//      Serial.println();
-//      Serial.print(bgCol);
-//      Serial.println();
-//      Serial.print(emj);
-//      Serial.println();
-//      Serial.print(border);
-//      Serial.println();
+      Serial.print(name);
+      Serial.println();
+      Serial.print(deets);
+      Serial.println();
+      Serial.print(txtCol);
+      Serial.println();
+      Serial.print(bgCol);
+      Serial.println();
+      Serial.print(emj);
+      Serial.println();
+      Serial.print(border);
+      Serial.println();
 //      
       fname = border;
       fname2 = emj;
-      bg_colr, bg_colg, bg_colb = textToCol(bgCol);
-      txt_colr, txt_colg, txt_colb = textToCol(txtCol);
+      textToCol(bgCol,bg_colr, bg_colg, bg_colb);
+      Serial.print(bg_colr);
+      Serial.print(bg_colg);
+      Serial.print(bg_colb);
+      textToCol(txtCol,txt_colr, txt_colg, txt_colb);
+      Serial.print(txt_colr);
+      Serial.print(txt_colg);
+      Serial.print(txt_colb);
       clearScreen();
       drawText(name, tft.height() / 2, 3);
       drawText(deets, tft.height() / 2 + 28, 2);
