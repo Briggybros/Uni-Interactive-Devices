@@ -1,0 +1,41 @@
+<resources>
+    <string name="app_name">Amulink</string>
+
+    <string name="firebase_web_host" translatable="false">amulink-42370.firebaseapp.com</string>
+    <string name="facebook_application_id" translatable="false">731051910594792</string>
+    <string name="facebook_login_protocol_scheme" translatable="false">fb731051910594792</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="title_setup">Setup</string>
+    <string name="title_contacts">Contacts</string>
+    <string name="title_notifications">Settings</string>
+
+    <string-array name="colors">
+        <item>White</item>
+        <item>Pink</item>
+        <item>Green</item>
+        <item>Blue</item>
+        <item>Yellow</item>
+    </string-array>
+
+    <string-array name="emojis">
+        <item>🏒</item>
+        <item>🎮</item>
+        <item>💻</item>
+        <item>🎓</item>
+        <item>🍔</item>
+    </string-array>
+
+    <string-array name="emojis_keys">
+        <item>32</item>
+        <item>cogs</item>
+        <item>css</item>
+        <item>su</item>
+        <item>144</item>
+    </string-array>
+
+    <string-array name="borders">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+</resources>
