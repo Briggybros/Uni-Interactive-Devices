@@ -55,7 +55,13 @@ render(
                 .then(response =>
                   window.location.replace(`/u/${response.data.uid}`)
                 )
-                .catch(console.error);
+                .catch(error => {
+                  if (error.code === 'not-found') {
+                    window.location.replace('/');
+                  } else {
+                    console.error(error);
+                  }
+                });
               return null;
             }}
           />
