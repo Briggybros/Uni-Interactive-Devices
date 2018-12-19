@@ -22,7 +22,9 @@ class SendDataFragment : Fragment() {
     private lateinit var textColorVal: String
     private lateinit var emojiVal: String
     private lateinit var borderVal: String
-    private val viewModel: MainViewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
+    private val viewModel: MainViewModel by lazy {
+        ViewModelProviders.of(activity!!).get(MainViewModel::class.java)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -84,7 +86,11 @@ class SendDataFragment : Fragment() {
                     "\"emoji\": \"$emojiVal\", " +
                     "\"border\": \"$borderVal\"" +
                     "}"
+            sendButton.isEnabled = false
+            (activity as MainActivity).setProgressBar(true)
             val succ = viewModel.sendData(data)
+            sendButton.isEnabled = true
+            (activity as MainActivity).setProgressBar(false)
             if (succ) {
                 Toast.makeText(context, "Sent data", Toast.LENGTH_SHORT).show()
             } else {
