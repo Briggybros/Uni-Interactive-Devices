@@ -7,6 +7,7 @@
 #include <ArduinoJson.h>
 #include <SPI.h>
 #include <SD.h>
+#include <SoftwareSerial.h>
 
 #define TFT_DC 9
 #define TFT_CS 10
@@ -19,29 +20,127 @@ Adafruit_ILI9341 tft = Adafruit_ILI9341(TFT_CS, TFT_DC);
 #define FRAME_W 100
 #define FRAME_H 50
 
+#define ID "ALFA" //Change per duino
+#define BAUDRATE 9600 //^^
 
-#define BG_COL tft.color565(254,130,140)
-#define TXT_COL tft.color565(255,240,168)
+int bg_colr = 254;
+int bg_colg = 130;
+int bg_colb = 140;
+int txt_colr = 255;
+int txt_colg = 240;
+int txt_colb = 168;
+
+char *fname = "1";
+char *fname2 = "1";
 
 SoftwareSerial mySerial(3, 2); // RX, TX
-
 String inputString = "";
 DynamicJsonBuffer jsonBuffer(200);
 
+// These read 16- and 32-bit types from the SD card file.
+// BMP data is stored little-endian, Arduino is little-endian too.
+// May need to reverse subscript order if porting elsewhere.
+
+uint16_t read16(File &f) {
+  uint16_t result;
+  ((uint8_t *)&result)[0] = f.read(); // LSB
+  ((uint8_t *)&result)[1] = f.read(); // MSB
+  return result;
+}
+
+uint32_t read32(File &f) {
+  uint32_t result;
+  ((uint8_t *)&result)[0] = f.read(); // LSB
+  ((uint8_t *)&result)[1] = f.read();
+  ((uint8_t *)&result)[2] = f.read();
+  ((uint8_t *)&result)[3] = f.read(); // MSB
+  return result;
+}
+
+void printDirectory(File dir, int numTabs) {
+  while (true) {
+
+    File entry =  dir.openNextFile();
+    if (! entry) {
+      // no more files
+      break;
+    }
+    for (uint8_t i = 0; i < numTabs; i++) {
+      Serial.print('\t');
+    }
+    Serial.print(entry.name());
+    if (entry.isDirectory()) {
+      Serial.println("/");
+      printDirectory(entry, numTabs + 1);
+    } else {
+      // files have sizes, directories do not
+      Serial.print("\t\t");
+      Serial.println(entry.size(), DEC);
+    }
+    entry.close();
+  }
+}
+
 void clearScreen() {
-  tft.fillScreen(BG_COL);
+  tft.fillScreen(tft.color565(bg_colr,bg_colg,bg_colb));
   //bg 1 - 3
-  const char *filename = "bg/bg2.bmp";
+  char holding[20];
+  strcpy(holding, "bg/bg");
+  strcat(holding,fname);
+  strcat(holding,".bmp");
+  char *filename = holding;
+  char holding2[20];
+  strcpy(holding2, "be/");
+  strcat(holding2,fname2);
+  strcat(holding2,".bmp");
   //emojis 0 - 195, css, su, cogs, johns
-  const char *file2 = "be/32.bmp";
-//  bmpDraw(filename, (tft.height() / 2) + (-1 * 120), (tft.width()  / 2) + (-1 * 160));
+  char *file2 = holding2;
+  bmpDraw(filename, (tft.height() / 2) + (-1 * 120), (tft.width()  / 2) + (-1 * 160));
   bmpDraw(file2, (tft.height()/2) + (-1 * 50), (tft.width() / 2)+ (-1 * 130)); 
 }
 
-void drawText(const char *text, int y, int fontsize) {
+int *textToCol(const char* text){
+  int col[3];
+  if (strcmp(text,"PINK")){
+     col[0] = 254;
+     col[1] = 130;
+     col[2] = 140;
+  }else{
+    if (strcmp(text,"GREEN")){
+      col[0] = 193;
+      col[1] = 255;
+      col[2] = 223;
+    }else{
+      if(strcmp(text,"BLUE")){
+         col[0] = 214;
+         col[1] = 228;
+         col[2] = 255;
+      }else{
+        if(strcmp(text,"YELLOW")){
+          col[0] = 255;
+          col[1] = 251;
+          col[2] = 219;
+        }else{
+          col[0] = 255;
+          col[1] = 255;
+          col[2] = 255;
+        }
+      }
+    }
+  }
+  return col;
+
+}
+
+void drawText(const char *text, int y, int fontsize, bool hack = false) {
   int x = (tft.width() / 2) - strlen(text)*3* fontsize;
   tft.setCursor(x , y);
-  tft.setTextColor(TXT_COL);
+  if (hack){
+    tft.setTextColor(tft.color565(0,255,0));
+  }else{
+    tft.setTextColor(tft.color565(txt_colr,txt_colg,txt_colb));  
+  }
+  
   tft.setTextSize(fontsize);
   //tft.println(text);
   while(*text){
@@ -179,7 +278,7 @@ void bmpDraw(const char *filename, int16_t x, int16_t y) {
               //Serial.print(r);
               //Serial.println();
               if ((b == 254) && (g == 255) && (r == 196)){
-                tft.writePixel(BG_COL);
+                tft.writePixel(tft.color565(bg_colr,bg_colg,bg_colb));
               }else{
                 tft.writePixel(tft.color565(r,g,b));
               }
@@ -197,54 +296,9 @@ void bmpDraw(const char *filename, int16_t x, int16_t y) {
   bmpFile.close();
   if(!goodBmp) Serial.println(F("BMP format not recognized."));
 }
-
-// These read 16- and 32-bit types from the SD card file.
-// BMP data is stored little-endian, Arduino is little-endian too.
-// May need to reverse subscript order if porting elsewhere.
-
-uint16_t read16(File &f) {
-  uint16_t result;
-  ((uint8_t *)&result)[0] = f.read(); // LSB
-  ((uint8_t *)&result)[1] = f.read(); // MSB
-  return result;
-}
-
-uint32_t read32(File &f) {
-  uint32_t result;
-  ((uint8_t *)&result)[0] = f.read(); // LSB
-  ((uint8_t *)&result)[1] = f.read();
-  ((uint8_t *)&result)[2] = f.read();
-  ((uint8_t *)&result)[3] = f.read(); // MSB
-  return result;
-}
-
-void printDirectory(File dir, int numTabs) {
-  while (true) {
-
-    File entry =  dir.openNextFile();
-    if (! entry) {
-      // no more files
-      break;
-    }
-    for (uint8_t i = 0; i < numTabs; i++) {
-      Serial.print('\t');
-    }
-    Serial.print(entry.name());
-    if (entry.isDirectory()) {
-      Serial.println("/");
-      printDirectory(entry, numTabs + 1);
-    } else {
-      // files have sizes, directories do not
-      Serial.print("\t\t");
-      Serial.println(entry.size(), DEC);
-    }
-    entry.close();
-  }
-}
-
 void setup() {
-  Serial.begin(9600);
-  mySerial.begin(9600);
+  Serial.begin(BAUDRATE);
+  mySerial.begin(BAUDRATE);
 
   bool sd = false;
   while(!sd){
@@ -261,13 +315,15 @@ void setup() {
   Serial.println("Hello world");
 
   tft.setRotation(3);
-  clearScreen();
-  drawText("Ben Norris", tft.height() / 2, 3);
-  drawText("Ice Hockey Society", tft.height() / 2 + 28, 2);
+  tft.fillScreen(tft.color565(0,0,0));
+  //clearScreen();
+  drawText(ID, tft.height() / 2, 3,true);
+  drawText("Badge ID", tft.height() / 2 + 28, 2, true);
 }
 
 void loop() {
   if (mySerial.available()) {
+    Serial.println("REEEEADING");
     inputString = mySerial.readString(); //read the input
     Serial.println(inputString);
     JsonObject& root = jsonBuffer.parseObject(inputString);
@@ -277,6 +333,27 @@ void loop() {
     } else {
       const char *name = root["name"];
       const char *deets = root["deets"];
+      const char *txtCol = root["textColor"];
+      const char *bgCol = root["backgroundColor"];
+      const char *emj = root["emoji"];
+      const char *border = root["border"];
+//      Serial.print(name);
+//      Serial.println();
+//      Serial.print(deets);
+//      Serial.println();
+//      Serial.print(txtCol);
+//      Serial.println();
+//      Serial.print(bgCol);
+//      Serial.println();
+//      Serial.print(emj);
+//      Serial.println();
+//      Serial.print(border);
+//      Serial.println();
+//      
+      fname = border;
+      fname2 = emj;
+      bg_colr, bg_colg, bg_colb = textToCol(bgCol);
+      txt_colr, txt_colg, txt_colb = textToCol(txtCol);
       clearScreen();
       drawText(name, tft.height() / 2, 3);
       drawText(deets, tft.height() / 2 + 28, 2);
